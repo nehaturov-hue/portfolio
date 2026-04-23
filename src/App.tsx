@@ -1,7 +1,7 @@
 import './App.css'
 
 function App() {
-  const email = 'kyryll.nehaturov@gmail.com'
+  const email = 'nehaturov@gmail.com'
   const linkedin = 'https://linkedin.com/in/kyryll-nehaturov-142386190'
   const github = 'https://github.com/nehaturov-hue'
 
