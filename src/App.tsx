@@ -57,32 +57,46 @@ function App() {
 
   return (
     <>
-      {/* Hero */}
+      <nav>
+        <span className="nav-brand">Kyryll Nehaturov</span>
+        <div className="nav-links">
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="#contact">Contact</a>
+          <a href={github} target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </nav>
+
       <header id="hero">
-        <h1>Kyryll Nehaturov</h1>
-        <p className="tagline">
-          System Administration graduate from Odesa, Ukraine. 3 years commercial development
-          (React, Node.js, Docker). Currently building multi-agent AI systems at Syntalith.ai.
-          Based in Leiden, NL — available immediately, no sponsorship needed.
+        <div className="hero-tag">
+          <span className="dot" />
+          Available for hire
+        </div>
+        <h1 className="hero-headline">System Administrator & Developer</h1>
+        <p className="hero-subtitle">
+          System Administration graduate from Odesa, Ukraine. 3 years commercial
+          development with React, Node.js, and Docker. Currently building multi-agent
+          AI systems at Syntalith.ai. Based in Leiden, NL — available immediately,
+          no sponsorship needed.
         </p>
         <div className="cta-row">
-          <a className="cta-primary" href={`mailto:${email}`}>
+          <a className="btn btn-primary" href={`mailto:${email}`}>
             Get in touch
           </a>
-          <a className="cta-secondary" href={linkedin} target="_blank" rel="noreferrer">
+          <a className="btn btn-ghost" href={linkedin} target="_blank" rel="noreferrer">
             LinkedIn
           </a>
-          <a className="cta-secondary" href={github} target="_blank" rel="noreferrer">
+          <a className="btn btn-ghost" href={github} target="_blank" rel="noreferrer">
             GitHub
           </a>
         </div>
       </header>
 
-      <div className="divider" />
-
-      {/* Projects */}
       <section id="projects">
-        <h2>Projects</h2>
+        <div className="section-header">
+          <h2>Projects</h2>
+          <p>Real work, real systems, real impact.</p>
+        </div>
         <div className="project-grid">
           {projects.map((p) => (
             <article className="project-card" key={p.title}>
@@ -100,11 +114,11 @@ function App() {
         </div>
       </section>
 
-      <div className="divider" />
-
-      {/* Skills */}
       <section id="skills">
-        <h2>Skills</h2>
+        <div className="section-header">
+          <h2>Skills</h2>
+          <p>Technologies and tools I work with daily.</p>
+        </div>
         <div className="skills-grid">
           {skillGroups.map((g) => (
             <div className="skill-group" key={g.category}>
@@ -121,30 +135,27 @@ function App() {
         </div>
       </section>
 
-      <div className="divider" />
-
-      {/* Contact */}
       <section id="contact">
-        <h2>Contact</h2>
+        <h2>Let's work together</h2>
         <p className="contact-text">
-          Open to software engineering, DevOps, technical support, and AI infrastructure roles.
-          I reply within 24 hours.
+          Open to software engineering, DevOps, technical support, and AI infrastructure
+          roles. I reply within 24 hours.
         </p>
         <div className="contact-links">
-          <a className="cta-primary" href={`mailto:${email}`}>
+          <a className="btn btn-primary" href={`mailto:${email}`}>
             {email}
           </a>
-          <a className="cta-secondary" href={linkedin} target="_blank" rel="noreferrer">
+          <a className="btn btn-ghost" href={linkedin} target="_blank" rel="noreferrer">
             LinkedIn Profile
           </a>
-          <a className="cta-secondary" href={github} target="_blank" rel="noreferrer">
+          <a className="btn btn-ghost" href={github} target="_blank" rel="noreferrer">
             GitHub Profile
           </a>
         </div>
       </section>
 
       <footer>
-        <p>Built with Vite + React. Deployed on Vercel.</p>
+        <p>Built with Vite + React. Styled like Linear. Deployed on Vercel.</p>
       </footer>
     </>
   )
