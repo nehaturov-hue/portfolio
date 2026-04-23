@@ -243,6 +243,44 @@ footer {
   margin-top: auto;
 }
 
+/* Experience Timeline */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.timeline-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 20px;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.timeline-period {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.timeline-role {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.165px;
+}
+
+.timeline-company {
+  font-size: 15px;
+  color: var(--text-secondary);
+  letter-spacing: -0.165px;
+  text-align: right;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .skills-grid {
@@ -277,6 +315,15 @@ footer {
 
   .section-header {
     margin-bottom: 32px;
+  }
+
+  .timeline-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .timeline-company {
+    text-align: left;
   }
 
   footer {

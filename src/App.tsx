@@ -3,7 +3,6 @@ import './App.css'
 function App() {
   const email = 'nehaturov@gmail.com'
   const linkedin = 'https://linkedin.com/in/kyryll-nehaturov-142386190'
-  const github = 'https://github.com/nehaturov-hue'
 
   const projects = [
     {
@@ -22,13 +21,13 @@ function App() {
       title: 'Syntalith AI Systems',
       stack: ['OpenClaw', 'Docker', 'Multi-agent orchestration'],
       description:
-        'Building and maintaining Docker-based dev environments and debugging agent coordination failures. Designing failure-resistant orchestration patterns for autonomous AI agent swarms.',
+        'Building and maintaining Docker-based development environments. Debugging integration failures between AI agent components.',
     },
     {
-      title: 'roadmap.sh OSS',
+      title: 'roadmap.sh',
       stack: ['Documentation', 'Community'],
       description:
-        'Contributed to open-source developer roadmaps used by millions of developers worldwide. Added content, fixed errors, and improved structure for learning paths.',
+        'Forked and studied popular developer roadmaps to guide my own learning path.',
     },
   ]
 
@@ -55,15 +54,21 @@ function App() {
     },
   ]
 
+  const experience = [
+    { period: 'Jan 2026 – Present', role: 'AI Engineer', company: 'Syntalith.ai' },
+    { period: '2021 – 2022', role: 'Frontend Developer', company: 'Coax Software' },
+    { period: '2019 – 2021', role: 'Full-Stack Developer', company: 'Visitech' },
+  ]
+
   return (
     <>
       <nav>
         <span className="nav-brand">Kyryll Nehaturov</span>
         <div className="nav-links">
           <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
           <a href="#skills">Skills</a>
           <a href="#contact">Contact</a>
-          <a href={github} target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </nav>
 
@@ -83,11 +88,11 @@ function App() {
           <a className="btn btn-primary" href={`mailto:${email}`}>
             Get in touch
           </a>
+          <a className="btn btn-ghost" href="/resume.pdf">
+            Download Resume
+          </a>
           <a className="btn btn-ghost" href={linkedin} target="_blank" rel="noreferrer">
             LinkedIn
-          </a>
-          <a className="btn btn-ghost" href={github} target="_blank" rel="noreferrer">
-            GitHub
           </a>
         </div>
       </header>
@@ -110,6 +115,21 @@ function App() {
               </div>
               <p className="project-desc">{p.description}</p>
             </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="experience">
+        <div className="section-header">
+          <h2>Experience</h2>
+        </div>
+        <div className="timeline">
+          {experience.map((e) => (
+            <div className="timeline-row" key={e.period}>
+              <span className="timeline-period">{e.period}</span>
+              <span className="timeline-role">{e.role}</span>
+              <span className="timeline-company">{e.company}</span>
+            </div>
           ))}
         </div>
       </section>
@@ -148,14 +168,11 @@ function App() {
           <a className="btn btn-ghost" href={linkedin} target="_blank" rel="noreferrer">
             LinkedIn Profile
           </a>
-          <a className="btn btn-ghost" href={github} target="_blank" rel="noreferrer">
-            GitHub Profile
-          </a>
         </div>
       </section>
 
       <footer>
-        <p>Built with Vite + React. Styled like Linear. Deployed on Vercel.</p>
+        <p>&copy; 2026 Kyryll Nehaturov</p>
       </footer>
     </>
   )
