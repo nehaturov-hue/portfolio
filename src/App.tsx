@@ -9,31 +9,41 @@ function App() {
 
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     if (typeof window !== 'undefined') {
-      return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark'
+      const stored = localStorage.getItem('theme') as 'dark' | 'light' | null
+      if (stored) return stored
+      return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
     }
     return 'dark'
   })
 
   const [typedDone, setTypedDone] = useState(false)
   const headlineRef = useRef<HTMLHeadingElement>(null)
+  const headlineText = 'I Build Autonomous Systems'
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('theme', theme)
   }, [theme])
 
-  // Typewriter: mark done after animation completes
+  // Typewriter: compute steps from headline, derive timer from CSS
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) {
       setTypedDone(true)
       return
     }
-    const timer = setTimeout(() => setTypedDone(true), 2800)
+    const el = headlineRef.current
+    if (!el) return
+    const computed = getComputedStyle(el)
+    const dur = parseFloat(computed.animationDuration) || 2.2
+    const delay = parseFloat(computed.animationDelay) || 0.4
+    const timer = setTimeout(() => setTypedDone(true), (dur + delay) * 1000 + 100)
     return () => clearTimeout(timer)
   }, [])
 
   const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
+  const [menuOpen, setMenuOpen] = useState(false)
+  const closeMenu = () => setMenuOpen(false)
 
   const projects = [
     {
@@ -93,12 +103,22 @@ function App() {
       <nav>
         <span className="nav-brand">Kyryll Nehaturov</span>
         <div className="nav-right">
-          <div className="nav-links">
-            <a href="#projects">Projects</a>
-            <a href="#experience">Experience</a>
-            <a href="#skills">Skills</a>
-            <a href="#contact">Contact</a>
+          <div className={`nav-links${menuOpen ? ' nav-links--open' : ''}`}>
+            <a href="#projects" onClick={closeMenu}>Projects</a>
+            <a href="#experience" onClick={closeMenu}>Experience</a>
+            <a href="#skills" onClick={closeMenu}>Skills</a>
+            <a href="#contact" onClick={closeMenu}>Contact</a>
           </div>
+          <button
+            className="nav-hamburger"
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+          >
+            <span className={`hamburger-line${menuOpen ? ' hamburger-open' : ''}`} />
+            <span className={`hamburger-line${menuOpen ? ' hamburger-open' : ''}`} />
+            <span className={`hamburger-line${menuOpen ? ' hamburger-open' : ''}`} />
+          </button>
           <button
             className="theme-toggle"
             onClick={toggleTheme}
@@ -135,8 +155,16 @@ function App() {
         <h1
           ref={headlineRef}
           className={`hero-headline hero-headline-typed${typedDone ? ' typed-done' : ''}`}
+          style={{
+            animationName: typedDone ? undefined : 'typing, blink-caret',
+            animationDuration: typedDone ? undefined : '2.2s, 0.6s',
+            animationTimingFunction: typedDone ? undefined : `steps(${headlineText.length}, end), step-end`,
+            animationDelay: typedDone ? undefined : '0.4s, 0.4s',
+            animationIterationCount: typedDone ? undefined : '1, 6',
+            animationFillMode: typedDone ? undefined : 'forwards, none',
+          }}
         >
-          I Build Autonomous Systems
+          {headlineText}
         </h1>
         <p className="hero-subtitle">
           Systems admin from Odesa with 3 years of commercial development in React,

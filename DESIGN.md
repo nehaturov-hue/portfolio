@@ -242,7 +242,7 @@ Full-width experience rows. Three-column grid: period, role, company.
 ### Motion
 
 - **Scroll Reveals:** `animation-timeline: view()` triggers blur-to-sharp + slide-up (24px, 4px blur). Staggered timing for project cards and skill groups.
-- **Typewriter:** CSS steps(28) animation. Blinking caret at 0.6s step-end. Caret fades after completion.
+- **Typewriter:** CSS steps(N) animation where N = headline character count (computed in JS). Blinking caret at 0.6s step-end. Caret fades after completion.
 - **Particle Canvas:** requestAnimationFrame loop. Pauses when tab is hidden.
 - **Reduced Motion:** All animations disabled via `prefers-reduced-motion: reduce`. Content visible immediately.
 

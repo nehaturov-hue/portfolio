@@ -25,11 +25,40 @@ export default function ParticleCanvas() {
     let particles: Particle[] = []
     let mouse = { x: -9999, y: -9999 }
 
-    const CONNECTION_DIST = 160
-    const MOUSE_RADIUS = 200
-    const PARTICLE_COUNT = 160
+    // Scale factor: ~1 particle per 5000 sq px, clamped
+    function computeParticleCount() {
+      const rect = canvas!.getBoundingClientRect()
+      const area = rect.width * rect.height
+      return Math.max(40, Math.min(200, Math.round(area / 5000)))
+    }
+
     const BASE_SPEED = 0.15
     const MOUSE_STRENGTH = 0.0008
+
+    // Cache brand color, update on theme change
+    let brandColor: [number, number, number] = [0, 168, 154]
+
+    function readBrandColor() {
+      const style = getComputedStyle(document.documentElement)
+      const brand = style.getPropertyValue('--accent').trim()
+      if (brand.startsWith('#') && brand.length >= 7) {
+        const hex = brand.replace('#', '')
+        brandColor = [
+          parseInt(hex.slice(0, 2), 16),
+          parseInt(hex.slice(2, 4), 16),
+          parseInt(hex.slice(4, 6), 16),
+        ]
+      }
+    }
+
+    readBrandColor()
+
+    // Watch for theme toggle changing data-theme attribute
+    const themeObserver = new MutationObserver(readBrandColor)
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    })
 
     function resize() {
       const rect = canvas!.getBoundingClientRect()
@@ -41,20 +70,9 @@ export default function ParticleCanvas() {
       canvas!.style.height = rect.height + 'px'
     }
 
-    function getBrandColor(): [number, number, number] {
-      const style = getComputedStyle(document.documentElement)
-      const brand = style.getPropertyValue('--accent').trim()
-      const hex = brand.replace('#', '')
-      return [
-        parseInt(hex.slice(0, 2), 16),
-        parseInt(hex.slice(2, 4), 16),
-        parseInt(hex.slice(4, 6), 16),
-      ]
-    }
-
-    function initParticles() {
+    function initParticles(count: number) {
       const rect = canvas!.getBoundingClientRect()
-      particles = Array.from({ length: PARTICLE_COUNT }, () => ({
+      particles = Array.from({ length: count }, () => ({
         x: Math.random() * rect.width,
         y: Math.random() * rect.height,
         vx: (Math.random() - 0.5) * BASE_SPEED * 2,
@@ -67,7 +85,9 @@ export default function ParticleCanvas() {
       const rect = canvas!.getBoundingClientRect()
       const w = rect.width
       const h = rect.height
-      const [r, g, b] = getBrandColor()
+      const [r, g, b] = brandColor
+      const connDist = Math.max(100, Math.min(200, Math.sqrt(w * h) / 8))
+      const mouseRadius = connDist * 1.25
 
       ctx!.clearRect(0, 0, w, h)
 
@@ -77,8 +97,8 @@ export default function ParticleCanvas() {
         const dx = mouse.x - p.x
         const dy = mouse.y - p.y
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < MOUSE_RADIUS && dist > 1) {
-          const force = (1 - dist / MOUSE_RADIUS) * MOUSE_STRENGTH
+        if (dist < mouseRadius && dist > 1) {
+          const force = (1 - dist / mouseRadius) * MOUSE_STRENGTH
           p.vx += dx * force
           p.vy += dy * force
         }
@@ -116,8 +136,8 @@ export default function ParticleCanvas() {
           const dx = particles[i].x - particles[j].x
           const dy = particles[i].y - particles[j].y
           const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < CONNECTION_DIST) {
-            const alpha = (1 - dist / CONNECTION_DIST) * 0.15
+          if (dist < connDist) {
+            const alpha = (1 - dist / connDist) * 0.15
             ctx!.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`
             ctx!.beginPath()
             ctx!.moveTo(particles[i].x, particles[i].y)
@@ -132,8 +152,8 @@ export default function ParticleCanvas() {
         const dx = mouse.x - p.x
         const dy = mouse.y - p.y
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < MOUSE_RADIUS) {
-          const alpha = (1 - dist / MOUSE_RADIUS) * 0.2
+        if (dist < mouseRadius) {
+          const alpha = (1 - dist / mouseRadius) * 0.2
           ctx!.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`
           ctx!.beginPath()
           ctx!.moveTo(p.x, p.y)
@@ -165,7 +185,7 @@ export default function ParticleCanvas() {
     }
 
     resize()
-    initParticles()
+    initParticles(computeParticleCount())
     animId = requestAnimationFrame(draw)
 
     window.addEventListener('resize', resize)
@@ -175,6 +195,7 @@ export default function ParticleCanvas() {
 
     return () => {
       cancelAnimationFrame(animId)
+      themeObserver.disconnect()
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', handleMouseMove)
       canvas.removeEventListener('mouseleave', handleMouseLeave)
