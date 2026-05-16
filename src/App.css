@@ -95,6 +95,7 @@ nav {
   font-weight: 500;
   color: var(--accent);
   margin-bottom: 28px;
+  width: fit-content;
 }
 
 [data-theme="light"] .hero-tag {
