@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-16T22:20:00Z",
+  "title": "Design System: Kyryll Nehaturov Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "deep-void": {
+        "role": "neutral",
+        "displayName": "Deep Void",
+        "canonical": "#030706",
+        "tonalRamp": ["#000202", "#030706", "#090f0e", "#111817", "#28302e", "#4f5756", "#7a8281", "#b7c0be", "#e8f1ef"]
+      },
+      "warm-teal": {
+        "role": "primary",
+        "displayName": "Warm Teal",
+        "canonical": "#009084",
+        "tonalRamp": ["#00130f", "#002d27", "#004941", "#00675d", "#00877a", "#00a899", "#00cab9", "#37ebda", "#66fffb"]
+      },
+      "living-teal": {
+        "role": "accent",
+        "displayName": "Living Teal",
+        "canonical": "#00a89a",
+        "tonalRamp": ["#00130f", "#002d27", "#004941", "#00675d", "#00877a", "#00a899", "#00cab9", "#37ebda", "#66fffb"]
+      },
+      "moonlight": {
+        "role": "neutral",
+        "displayName": "Moonlight",
+        "canonical": "#e9f0ef",
+        "tonalRamp": ["#080c0c", "#1e2322", "#363c3b", "#515756", "#6d7372", "#8a9190", "#a9b0ae", "#c8cfce", "#e9f0ef"]
+      },
+      "silver-mist": {
+        "role": "neutral",
+        "displayName": "Silver Mist",
+        "canonical": "#bdc6c5"
+      },
+      "slate-whisper": {
+        "role": "neutral",
+        "displayName": "Slate Whisper",
+        "canonical": "#798381"
+      },
+      "shadow-slate": {
+        "role": "neutral",
+        "displayName": "Shadow Slate",
+        "canonical": "#4f5756"
+      },
+      "success-green": {
+        "role": "semantic",
+        "displayName": "Success Green",
+        "canonical": "#00ac5f"
+      },
+      "morning-mist": {
+        "role": "neutral",
+        "displayName": "Morning Mist",
+        "canonical": "#f0f7f6"
+      },
+      "cloud-white": {
+        "role": "neutral",
+        "displayName": "Cloud White",
+        "canonical": "#fdffff"
+      },
+      "light-teal": {
+        "role": "primary",
+        "displayName": "Light Teal",
+        "canonical": "#007b6e"
+      },
+      "light-accent": {
+        "role": "accent",
+        "displayName": "Light Accent",
+        "canonical": "#006b5f"
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline only. Fills viewport width. Types itself out on load." },
+      "headline": { "displayName": "Headline", "purpose": "Section headers. Projects, Experience, Skills, Contact." },
+      "title": { "displayName": "Title", "purpose": "Project card titles, timeline roles." },
+      "body": { "displayName": "Body", "purpose": "Paragraph text. Max line length 65ch." },
+      "label": { "displayName": "Label", "purpose": "Skill group categories. Uppercase, wide tracking." },
+      "mono": { "displayName": "Mono", "purpose": "Technology tags, timeline dates. JetBrains Mono." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "scroll-reveal", "value": "animation-timeline: view(), blur-to-sharp + slide-up 24px", "purpose": "Cinematic section reveals on scroll." },
+      { "name": "typewriter", "value": "CSS steps(28) over 2.2s with 0.4s delay", "purpose": "Hero headline character-by-character reveal." },
+      { "name": "particle-loop", "value": "requestAnimationFrame, 160 particles, 160px connection distance", "purpose": "Generative agent graph in hero background." },
+      { "name": "caret-blink", "value": "0.6s step-end, 6 iterations", "purpose": "Blinking cursor during typewriter animation." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "480px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Confident, minimal. Warm teal background, moonlight text. 8px radius.",
+      "html": "<button class=\"ds-btn-primary\">Get in touch</button>",
+      "css": ".ds-btn-primary { background: var(--brand, #009084); color: var(--text-primary, #e9f0ef); padding: 10px 22px; border-radius: 8px; font-family: var(--sans, 'Outfit', system-ui, sans-serif); font-size: 0.875rem; font-weight: 500; border: none; cursor: pointer; letter-spacing: -0.005em; transition: background 0.2s ease; display: inline-flex; align-items: center; gap: 8px; } .ds-btn-primary:hover { background: var(--accent, #00a89a); } .ds-btn-primary:focus-visible { outline: 2px solid var(--accent, #00a89a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action. Transparent with border, subtle background on hover.",
+      "html": "<button class=\"ds-btn-ghost\">Download Resume</button>",
+      "css": ".ds-btn-ghost { background: rgba(9, 19, 17, 0.6); color: var(--text-secondary, #bdc6c5); padding: 10px 22px; border-radius: 8px; font-family: var(--sans, 'Outfit', system-ui, sans-serif); font-size: 0.875rem; font-weight: 500; border: 1px solid var(--border-standard, #1a2422); cursor: pointer; letter-spacing: -0.005em; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; } .ds-btn-ghost:hover { background: rgba(17, 28, 26, 0.8); color: var(--text-primary, #e9f0ef); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--accent, #00a89a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Monospace label for technology stacks. Functional, not decorative.",
+      "html": "<span class=\"ds-tag\">React</span>",
+      "css": ".ds-tag { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.6875rem; font-weight: 400; padding: 3px 10px; border-radius: 5px; background: rgba(9, 19, 17, 0.8); color: var(--text-tertiary, #798381); border: 1px solid var(--border-subtle, #101817); letter-spacing: 0.01em; }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Bento grid card. First card spans 2 columns. Accent border on hover.",
+      "html": "<article class=\"ds-card\"><h3>Visitech IIoT Dashboard</h3><div class=\"ds-card-tags\"><span class=\"ds-tag\">React</span><span class=\"ds-tag\">Docker</span></div><p class=\"ds-card-desc\">Real-time monitoring dashboard.</p></article>",
+      "css": ".ds-card { background: rgba(9, 19, 17, 0.6); border: 1px solid var(--border-standard, #1a2422); border-radius: 12px; padding: 32px; transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease; display: flex; flex-direction: column; } .ds-card:hover { border-color: var(--accent, #00a89a); background: var(--surface-hover, #111c1a); transform: translateY(-2px); } .ds-card h3 { font-family: var(--sans, 'Outfit', sans-serif); font-size: 1.375rem; font-weight: 600; color: var(--text-primary, #e9f0ef); margin-bottom: 12px; letter-spacing: -0.015em; } .ds-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; } .ds-card-desc { font-size: 0.9375rem; line-height: 1.6; color: var(--text-secondary, #bdc6c5); flex: 1; }"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Sticky, translucent, minimal. Full-width with backdrop blur.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-brand\">Kyryll Nehaturov</span><div class=\"ds-nav-links\"><a href=\"#projects\">Projects</a><a href=\"#experience\">Experience</a><a href=\"#skills\">Skills</a><a href=\"#contact\">Contact</a></div></nav>",
+      "css": ".ds-nav { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 14px clamp(24px, 5vw, 80px); background: rgba(3, 7, 6, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-subtle, #101817); } .ds-nav-brand { font-family: var(--sans, 'Outfit', sans-serif); font-size: 0.9375rem; font-weight: 600; color: var(--text-primary, #e9f0ef); letter-spacing: -0.01em; } .ds-nav-links { display: flex; gap: 28px; align-items: center; } .ds-nav-links a { font-family: var(--sans, 'Outfit', sans-serif); font-size: 0.875rem; font-weight: 500; color: var(--text-tertiary, #798381); text-decoration: none; transition: color 0.15s ease; } .ds-nav-links a:hover { color: var(--text-primary, #e9f0ef); }"
+    },
+    {
+      "name": "Available for Hire Pill",
+      "kind": "custom",
+      "refersTo": "hero-tag",
+      "description": "Inline pill with pulsing green dot. Width: fit-content to prevent stretching in full-width layout.",
+      "html": "<div class=\"ds-pill\"><span class=\"ds-pill-dot\"></span>Available for hire</div>",
+      "css": ".ds-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 9999px; border: 1px solid var(--brand, #009084); background: rgba(0, 144, 132, 0.08); font-family: var(--sans, 'Outfit', sans-serif); font-size: 0.8125rem; font-weight: 500; color: var(--accent, #00a89a); width: fit-content; } .ds-pill-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success, #00ac5f); animation: ds-pulse 2s ease-in-out infinite; } @keyframes ds-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Autonomous Builder",
+    "overview": "This is a portfolio for someone who builds systems that run themselves. The design should feel like the systems it describes: alive, connected, self-sufficient. A generative particle canvas fills the hero, reacting to the cursor like an agent orchestration graph. The layout is radical and full-bleed. No centered-column safety net. The headline fills the screen at clamp(3rem, 9vw, 7rem). Projects use a bento grid where the strongest work spans two columns.",
+    "keyCharacteristics": [
+      "Full-bleed layout with fluid edge padding (clamp(24px, 5vw, 80px))",
+      "Generative particle canvas as hero background (Canvas 2D, cursor-reactive)",
+      "Scroll-driven cinematic reveals (animation-timeline: view())",
+      "Typewriter headline animation with blinking caret",
+      "Warm teal monochrome palette with dual-theme (dark/light) support",
+      "Massive display typography that fills the viewport width",
+      "Bento grid for project cards (asymmetric, not uniform)"
+    ],
+    "rules": [
+      { "name": "The No Pure Neutrals Rule", "body": "Never use #000 or #fff. Every neutral is tinted toward the brand hue at chroma 0.005-0.01.", "section": "colors" },
+      { "name": "The One Accent Rule", "body": "Warm teal is the only saturated color. Its rarity on the page is what makes it powerful.", "section": "colors" },
+      { "name": "The Dual-Theme Rule", "body": "Light mode is NOT inverted dark mode. Different surface hierarchies, accent lightness, and border treatment.", "section": "colors" },
+      { "name": "The Massive Display Rule", "body": "The hero headline uses clamp(3rem, 9vw, 7rem). It should feel like it owns the viewport.", "section": "typography" },
+      { "name": "The Mono-for-Data Rule", "body": "JetBrains Mono is used only for data labels. Never for body text, headings, or navigation.", "section": "typography" },
+      { "name": "The No Flat Scale Rule", "body": "Each type scale step is a clear visual jump, not a subtle nudge.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Surfaces are flat at rest. No shadows, no glassmorphism, no decorative blurs.", "section": "elevation" },
+      { "name": "The Border-as-Depth Rule", "body": "Borders replace shadows for surface definition. Three-step scale: subtle, standard, solid.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use warm teal (#009084) as the only saturated accent.",
+      "Do tint every neutral toward the brand hue.",
+      "Do let the hero headline fill the viewport.",
+      "Do use the bento grid for projects.",
+      "Do respect prefers-reduced-motion.",
+      "Do use width: fit-content on inline pills and tags.",
+      "Do use --page-px for all edge padding."
+    ],
+    "donts": [
+      "Don't use #000 or #fff.",
+      "Don't use gradient text (background-clip: text).",
+      "Don't use side-stripe borders.",
+      "Don't use glassmorphism as default.",
+      "Don't use identical card grids.",
+      "Don't use the hero-metric template.",
+      "Don't use modals as first thought.",
+      "Don't animate CSS layout properties.",
+      "Don't use em dashes.",
+      "Don't wrap everything in a container.",
+      "Don't center the contact section.",
+      "Don't use monospace for body text or headings."
+    ]
+  }
+}
