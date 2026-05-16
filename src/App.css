@@ -50,8 +50,8 @@ nav {
   background: none;
   border: 1px solid var(--border-standard);
   border-radius: 8px;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -124,7 +124,7 @@ nav {
   font-size: 1.25rem;
   line-height: 1.6;
   color: var(--text-tertiary);
-  max-width: 65ch;
+  max-width: min(65ch, 100%);
   letter-spacing: -0.005em;
   margin-bottom: 40px;
 }
@@ -144,7 +144,7 @@ nav {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 22px;
+  padding: 12px 24px;
   border-radius: 8px;
   font-family: var(--sans);
   font-size: 0.875rem;
@@ -234,10 +234,12 @@ section {
   flex-direction: column;
 }
 
-.project-card:hover {
-  border-color: var(--accent);
-  background: var(--surface-hover);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .project-card:hover {
+    border-color: var(--accent);
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+  }
 }
 
 .project-card h3 {
@@ -283,7 +285,7 @@ section {
 
 .timeline-row {
   display: grid;
-  grid-template-columns: 200px 1fr 1fr;
+  grid-template-columns: 180px 1fr 1fr;
   gap: 24px;
   align-items: center;
   padding: 20px 28px;
@@ -293,8 +295,10 @@ section {
   transition: border-color 0.2s ease;
 }
 
-.timeline-row:hover {
-  border-color: var(--border-standard);
+@media (hover: hover) {
+  .timeline-row:hover {
+    border-color: var(--border-standard);
+  }
 }
 
 .timeline-period {
@@ -351,7 +355,7 @@ section {
 .contact-text {
   font-size: 1.125rem;
   color: var(--text-tertiary);
-  max-width: 65ch;
+  max-width: min(65ch, 100%);
   margin-bottom: 28px;
   line-height: 1.6;
 }
@@ -387,11 +391,19 @@ footer {
   .project-card:first-child {
     grid-column: span 2;
   }
+  .timeline-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 16px 20px;
+  }
+  .timeline-company {
+    text-align: left;
+  }
 }
 
 @media (max-width: 768px) {
   #hero {
-    padding: 100px var(--page-px) 56px;
+    padding: 72px var(--page-px) 48px;
     min-height: 60vh;
   }
 
@@ -415,21 +427,20 @@ footer {
   .section-header {
     margin-bottom: 36px;
   }
-
-  .timeline-row {
-    grid-template-columns: 1fr;
-    gap: 4px;
-    padding: 16px 20px;
-  }
-
-  .timeline-company {
-    text-align: left;
-  }
 }
 
 /* Hamburger button — hidden on desktop */
 .nav-hamburger {
   display: none;
+}
+
+@media (max-width: 640px) {
+  .nav-links {
+    gap: 16px;
+  }
+  .nav-links a {
+    font-size: 0.8125rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -470,9 +481,9 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 4px;
-    width: 36px;
-    height: 36px;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
     background: none;
     border: 1px solid var(--border-standard);
     border-radius: 8px;
