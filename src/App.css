@@ -39,6 +39,9 @@ nav {
   color: var(--text-tertiary);
   letter-spacing: -0.01em;
   transition: color 0.15s ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .nav-links a:hover {
@@ -498,8 +501,8 @@ footer {
     flex-direction: column;
     justify-content: center;
     gap: 5px;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     background: none;
     border: 1px solid var(--border-standard);
     border-radius: 8px;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import './overdrive.css'
 import ParticleCanvas from './ParticleCanvas'
@@ -56,6 +56,24 @@ function App() {
   const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
   const [menuOpen, setMenuOpen] = useState(false)
   const closeMenu = () => setMenuOpen(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
+
+  // Escape key closes mobile menu, focus management on open/close
+  useEffect(() => {
+    if (!menuOpen) return
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setMenuOpen(false)
+        hamburgerRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    // Focus first link when menu opens
+    const firstLink = menuRef.current?.querySelector('a')
+    firstLink?.focus()
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [menuOpen])
 
   const projects = [
     {
@@ -116,17 +134,19 @@ function App() {
       <nav aria-label="Main navigation">
         <span className="nav-brand">Kyryll Nehaturov</span>
         <div className="nav-right">
-          <div className={`nav-links${menuOpen ? ' nav-links--open' : ''}`}>
+          <div ref={menuRef} id="nav-menu" className={`nav-links${menuOpen ? ' nav-links--open' : ''}`}>
             <a href="#projects" onClick={closeMenu}>Projects</a>
             <a href="#experience" onClick={closeMenu}>Experience</a>
             <a href="#skills" onClick={closeMenu}>Skills</a>
             <a href="#contact" onClick={closeMenu}>Contact</a>
           </div>
           <button
+            ref={hamburgerRef}
             className="nav-hamburger"
             onClick={() => setMenuOpen(o => !o)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
+            aria-controls="nav-menu"
           >
             <span className={`hamburger-line${menuOpen ? ' hamburger-open' : ''}`} />
             <span className={`hamburger-line${menuOpen ? ' hamburger-open' : ''}`} />
