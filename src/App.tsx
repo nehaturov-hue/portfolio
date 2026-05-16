@@ -155,13 +155,17 @@ function App() {
         <h1
           ref={headlineRef}
           className={`hero-headline hero-headline-typed${typedDone ? ' typed-done' : ''}`}
-          style={{
-            animationName: typedDone ? undefined : 'typing, blink-caret',
-            animationDuration: typedDone ? undefined : '2.2s, 0.6s',
-            animationTimingFunction: typedDone ? undefined : `steps(${headlineText.length}, end), step-end`,
-            animationDelay: typedDone ? undefined : '0.4s, 0.4s',
-            animationIterationCount: typedDone ? undefined : '1, 6',
-            animationFillMode: typedDone ? undefined : 'forwards, none',
+          style={typedDone ? {
+            width: '100%',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+          } : {
+            animationName: 'typing, blink-caret',
+            animationDuration: '2.2s, 0.6s',
+            animationTimingFunction: `steps(${headlineText.length}, end), step-end`,
+            animationDelay: '0.4s, 0.4s',
+            animationIterationCount: '1, 6',
+            animationFillMode: 'forwards, none',
           }}
         >
           {headlineText}
