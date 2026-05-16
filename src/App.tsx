@@ -218,8 +218,8 @@ function App() {
       <section id="contact">
         <h2 className="reveal">Let's work together</h2>
         <p className="contact-text reveal">
-          Open to software engineering, DevOps, technical support, and AI infrastructure
-          roles. I reply within 24 hours.
+          Open to any role where I can contribute. Technical or hands-on, office
+          or warehouse. Full-time or part-time. I reply within 24 hours.
         </p>
         <div className="contact-links reveal">
           <a className="btn btn-primary" href={`mailto:${email}`}>

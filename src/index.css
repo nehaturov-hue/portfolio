@@ -25,6 +25,10 @@
 
   --sans: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Full-width layout tokens */
+  --page-px: clamp(24px, 5vw, 80px);
+  --content-max: 900px;
 }
 
 [data-theme="light"] {
@@ -60,8 +64,6 @@
 
 body {
   min-height: 100svh;
-  display: flex;
-  justify-content: center;
   font-family: var(--sans);
   font-feature-settings: 'cv01', 'ss03';
   font-size: 16px;
@@ -75,9 +77,9 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Full-width root — no max-width constraint */
 #root {
   width: 100%;
-  max-width: 1100px;
   box-sizing: border-box;
   min-height: 100svh;
   display: flex;
@@ -94,17 +96,18 @@ h1, h2, h3, h4 {
   text-wrap: balance;
 }
 
+/* Massive headlines — the radical part */
 h1 {
-  font-size: clamp(2.5rem, 5vw, 3rem);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  font-size: clamp(3rem, 9vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
   font-weight: 700;
 }
 
 h2 {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  line-height: 1.15;
-  letter-spacing: -0.025em;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
 }
 
 h3 {
@@ -148,9 +151,9 @@ code {
 
 @media (max-width: 768px) {
   h1 {
-    font-size: clamp(1.75rem, 6vw, 2.25rem);
+    font-size: clamp(2.25rem, 10vw, 3.5rem);
   }
   h2 {
-    font-size: clamp(1.25rem, 4vw, 1.5rem);
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
   }
 }
