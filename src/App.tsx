@@ -38,12 +38,6 @@ function App() {
       description:
         'Building and maintaining Docker-based development environments. Debugging integration failures between AI agent components.',
     },
-    {
-      title: 'roadmap.sh',
-      stack: ['Documentation', 'Community'],
-      description:
-        'Forked and studied popular developer roadmaps to guide my own learning path.',
-    },
   ]
 
   const skillGroups = [
@@ -71,6 +65,7 @@ function App() {
 
   const experience = [
     { period: 'Jan 2026 – Present', role: 'AI Engineer', company: 'Syntalith.ai' },
+    { period: '2022 – 2025', role: 'Driver / Courier', company: 'Various' },
     { period: '2021 – 2022', role: 'Frontend Developer', company: 'Coax Software' },
     { period: '2019 – 2021', role: 'Full-Stack Developer', company: 'Visitech' },
   ]
@@ -118,12 +113,12 @@ function App() {
           <span className="dot" />
           Available for hire
         </div>
-        <h1 className="hero-headline">System Administrator & Developer</h1>
+        <h1 className="hero-headline">I Build Autonomous Systems</h1>
         <p className="hero-subtitle">
-          System Administration graduate from Odesa, Ukraine. 3 years commercial
-          development with React, Node.js, and Docker. Currently building multi-agent
-          AI systems at Syntalith.ai. Based in Leiden, NL — available immediately,
-          no sponsorship needed.
+          Systems admin from Odesa with 3 years of commercial development in React,
+          Node.js, and Docker. Currently building multi-agent AI pipelines at
+          Syntalith.ai. Based in Leiden, NL. Available immediately, no sponsorship
+          needed.
         </p>
         <div className="cta-row">
           <a className="btn btn-primary" href={`mailto:${email}`}>
@@ -141,7 +136,7 @@ function App() {
       <section id="projects">
         <div className="section-header">
           <h2>Projects</h2>
-          <p>Real work, real systems, real impact.</p>
+          <p>Production systems I designed and shipped.</p>
         </div>
         <div className="project-grid">
           {projects.map((p) => (
@@ -178,7 +173,7 @@ function App() {
       <section id="skills">
         <div className="section-header">
           <h2>Skills</h2>
-          <p>Technologies and tools I work with daily.</p>
+          <p>Stack I reach for when building production systems.</p>
         </div>
         <div className="skills-grid">
           {skillGroups.map((g) => (
