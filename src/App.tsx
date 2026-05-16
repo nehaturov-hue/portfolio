@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
+import './overdrive.css'
+import ParticleCanvas from './ParticleCanvas'
 
 function App() {
   const email = 'nehaturov@gmail.com'
@@ -12,10 +14,24 @@ function App() {
     return 'dark'
   })
 
+  const [typedDone, setTypedDone] = useState(false)
+  const headlineRef = useRef<HTMLHeadingElement>(null)
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('theme', theme)
   }, [theme])
+
+  // Typewriter: mark done after animation completes
+  useEffect(() => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReduced) {
+      setTypedDone(true)
+      return
+    }
+    const timer = setTimeout(() => setTypedDone(true), 2800)
+    return () => clearTimeout(timer)
+  }, [])
 
   const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
 
@@ -70,6 +86,8 @@ function App() {
     { period: '2019 – 2021', role: 'Full-Stack Developer', company: 'Visitech' },
   ]
 
+  const stagger = (i: number) => `reveal reveal-stagger-${i + 1}`
+
   return (
     <>
       <nav>
@@ -109,11 +127,17 @@ function App() {
       </nav>
 
       <header id="hero">
+        <ParticleCanvas />
         <div className="hero-tag">
           <span className="dot" />
           Available for hire
         </div>
-        <h1 className="hero-headline">I Build Autonomous Systems</h1>
+        <h1
+          ref={headlineRef}
+          className={`hero-headline hero-headline-typed${typedDone ? ' typed-done' : ''}`}
+        >
+          I Build Autonomous Systems
+        </h1>
         <p className="hero-subtitle">
           Systems admin from Odesa with 3 years of commercial development in React,
           Node.js, and Docker. Currently building multi-agent AI pipelines at
@@ -134,13 +158,13 @@ function App() {
       </header>
 
       <section id="projects">
-        <div className="section-header">
+        <div className="section-header reveal">
           <h2>Projects</h2>
           <p>Production systems I designed and shipped.</p>
         </div>
         <div className="project-grid">
-          {projects.map((p) => (
-            <article className="project-card" key={p.title}>
+          {projects.map((p, i) => (
+            <article className={`project-card ${stagger(i)}`} key={p.title}>
               <h3>{p.title}</h3>
               <div className="stack-row">
                 {p.stack.map((s) => (
@@ -156,12 +180,12 @@ function App() {
       </section>
 
       <section id="experience">
-        <div className="section-header">
+        <div className="section-header reveal">
           <h2>Experience</h2>
         </div>
         <div className="timeline">
-          {experience.map((e) => (
-            <div className="timeline-row" key={e.period}>
+          {experience.map((e, i) => (
+            <div className={`timeline-row ${stagger(i)}`} key={e.period}>
               <span className="timeline-period">{e.period}</span>
               <span className="timeline-role">{e.role}</span>
               <span className="timeline-company">{e.company}</span>
@@ -171,13 +195,13 @@ function App() {
       </section>
 
       <section id="skills">
-        <div className="section-header">
+        <div className="section-header reveal">
           <h2>Skills</h2>
           <p>Stack I reach for when building production systems.</p>
         </div>
         <div className="skills-grid">
-          {skillGroups.map((g) => (
-            <div className="skill-group" key={g.category}>
+          {skillGroups.map((g, i) => (
+            <div className={`skill-group ${stagger(i)}`} key={g.category}>
               <h4>{g.category}</h4>
               <div className="skill-tags">
                 {g.skills.map((s) => (
@@ -192,12 +216,12 @@ function App() {
       </section>
 
       <section id="contact">
-        <h2>Let's work together</h2>
-        <p className="contact-text">
+        <h2 className="reveal">Let's work together</h2>
+        <p className="contact-text reveal">
           Open to software engineering, DevOps, technical support, and AI infrastructure
           roles. I reply within 24 hours.
         </p>
-        <div className="contact-links">
+        <div className="contact-links reveal">
           <a className="btn btn-primary" href={`mailto:${email}`}>
             {email}
           </a>
