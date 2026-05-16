@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import './overdrive.css'
 import ParticleCanvas from './ParticleCanvas'
@@ -16,8 +16,8 @@ function App() {
     return 'dark'
   })
 
-  const [typedDone, setTypedDone] = useState(false)
-  const headlineRef = useRef<HTMLHeadingElement>(null)
+  const [displayedLength, setDisplayedLength] = useState(0)
+  const [showCursor, setShowCursor] = useState(false)
   const headlineText = 'I Build Autonomous Systems'
 
   useEffect(() => {
@@ -25,20 +25,32 @@ function App() {
     localStorage.setItem('theme', theme)
   }, [theme])
 
-  // Typewriter: compute steps from headline, derive timer from CSS
+  // Typewriter: character-by-character with variable timing
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced) {
-      setTypedDone(true)
+    if (prefersReduced || window.innerWidth <= 600) {
+      setDisplayedLength(headlineText.length)
+      setShowCursor(true)
       return
     }
-    const el = headlineRef.current
-    if (!el) return
-    const computed = getComputedStyle(el)
-    const dur = parseFloat(computed.animationDuration) || 2.2
-    const delay = parseFloat(computed.animationDelay) || 0.4
-    const timer = setTimeout(() => setTypedDone(true), (dur + delay) * 1000 + 100)
-    return () => clearTimeout(timer)
+
+    let i = 0
+    let timeout: ReturnType<typeof setTimeout>
+
+    function typeNext() {
+      if (i < headlineText.length) {
+        i++
+        setDisplayedLength(i)
+        const base = 75
+        const variation = 35
+        timeout = setTimeout(typeNext, base + (Math.random() - 0.5) * variation * 2)
+      } else {
+        setShowCursor(true)
+      }
+    }
+
+    timeout = setTimeout(typeNext, 600)
+    return () => clearTimeout(timeout)
   }, [])
 
   const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
@@ -152,11 +164,9 @@ function App() {
           <span className="dot" />
           Available for hire
         </div>
-        <h1
-          ref={headlineRef}
-          className={`hero-headline hero-headline-typed${typedDone ? ' typed-done' : ''}`}
-        >
-          {headlineText}
+        <h1 className="hero-headline">
+          {headlineText.slice(0, displayedLength)}
+          <span className="typewriter-cursor" style={{ opacity: showCursor ? undefined : 0 }}>│</span>
         </h1>
         <p className="hero-subtitle">
           Systems admin from Odesa with 3 years of commercial development in React,
