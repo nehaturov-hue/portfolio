@@ -39,7 +39,7 @@
   --text-primary: #030b0a;
   --text-secondary: #26302f;
   --text-tertiary: #525e5c;
-  --text-quaternary: #798381;
+  --text-quaternary: #616d6b;
   --brand: #007b6e;
   --accent: #006b5f;
   --accent-hover: #00544a;
@@ -60,6 +60,25 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* Skip nav link — visually hidden until focused */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--page-px);
+  padding: 12px 24px;
+  background: var(--brand);
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.875rem;
+  border-radius: 0 0 8px 8px;
+  z-index: 100;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 0;
 }
 
 body {

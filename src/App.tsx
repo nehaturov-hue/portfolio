@@ -112,7 +112,8 @@ function App() {
 
   return (
     <>
-      <nav>
+      <a className="skip-link" href="#projects">Skip to content</a>
+      <nav aria-label="Main navigation">
         <span className="nav-brand">Kyryll Nehaturov</span>
         <div className="nav-right">
           <div className={`nav-links${menuOpen ? ' nav-links--open' : ''}`}>
@@ -158,6 +159,7 @@ function App() {
         </div>
       </nav>
 
+      <main>
       <header id="hero">
         <ParticleCanvas />
         <div className="hero-tag">
@@ -260,6 +262,8 @@ function App() {
           </a>
         </div>
       </section>
+
+      </main>
 
       <footer>
         <p>&copy; 2026 Kyryll Nehaturov</p>

@@ -167,6 +167,10 @@ nav {
   color: var(--text-primary);
 }
 
+[data-theme="dark"] .btn-primary {
+  background: #00756a;
+}
+
 .btn-primary:hover {
   background: var(--accent);
   color: var(--text-primary);
