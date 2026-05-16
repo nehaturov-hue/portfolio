@@ -164,9 +164,9 @@ function App() {
           <span className="dot" />
           Available for hire
         </div>
-        <h1 className="hero-headline">
+        <h1 className="hero-headline" aria-label={headlineText}>
           {headlineText.slice(0, displayedLength)}
-          <span className="typewriter-cursor" style={{ opacity: showCursor ? undefined : 0 }}>│</span>
+          <span className="typewriter-cursor" aria-hidden="true" style={{ opacity: showCursor ? undefined : 0 }}>│</span>
         </h1>
         <p className="hero-subtitle">
           Systems admin from Odesa with 3 years of commercial development in React,
