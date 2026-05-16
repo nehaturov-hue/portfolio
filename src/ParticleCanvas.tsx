@@ -27,7 +27,7 @@ export default function ParticleCanvas() {
 
     const CONNECTION_DIST = 160
     const MOUSE_RADIUS = 200
-    const PARTICLE_COUNT = 80
+    const PARTICLE_COUNT = 160
     const BASE_SPEED = 0.15
     const MOUSE_STRENGTH = 0.0008
 
