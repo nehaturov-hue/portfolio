@@ -1,23 +1,67 @@
+/* === Theme Tokens === */
 :root {
-  --bg: #08090a;
-  --panel: #0f1011;
-  --surface: #191a1b;
-  --surface-hover: #28282c;
-  --text-primary: #f7f8f8;
-  --text-secondary: #d0d6e0;
-  --text-tertiary: #8a8f98;
-  --text-quaternary: #62666d;
-  --brand: #5e6ad2;
-  --accent: #7170ff;
-  --accent-hover: #828fff;
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --border-standard: rgba(255, 255, 255, 0.08);
-  --border-solid: #23252a;
-  --success: #10b981;
+  /* Dark theme (default) — warm teal tinted neutrals */
+  --bg: #030706;
+  --panel: #050b0a;
+  --surface: #091311;
+  --surface-hover: #111c1a;
+  --text-primary: #e9f0ef;
+  --text-secondary: #bdc6c5;
+  --text-tertiary: #798381;
+  --text-quaternary: #4f5756;
+  --brand: #009084;
+  --accent: #00a89a;
+  --accent-hover: #3dbbae;
+  --success: #00ac5f;
+  --border-subtle: #101817;
+  --border-standard: #1a2422;
+  --border-solid: #141d1b;
 
-  --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --nav-bg: rgba(3, 7, 6, 0.85);
+  --card-bg: rgba(9, 19, 17, 0.6);
+  --tag-bg: rgba(9, 19, 17, 0.8);
+  --btn-ghost-bg: rgba(9, 19, 17, 0.6);
+  --btn-ghost-hover: rgba(17, 28, 26, 0.8);
+
+  --sans: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
 
+[data-theme="light"] {
+  --bg: #f0f7f6;
+  --panel: #f8fdfc;
+  --surface: #fdffff;
+  --surface-hover: #e4edec;
+  --text-primary: #030b0a;
+  --text-secondary: #26302f;
+  --text-tertiary: #525e5c;
+  --text-quaternary: #798381;
+  --brand: #007b6e;
+  --accent: #006b5f;
+  --accent-hover: #00544a;
+  --success: #008b45;
+  --border-subtle: #d7e0df;
+  --border-standard: #c6d0cf;
+  --border-solid: #aebab8;
+
+  --nav-bg: rgba(240, 247, 246, 0.88);
+  --card-bg: rgba(253, 255, 255, 0.7);
+  --tag-bg: rgba(215, 224, 223, 0.5);
+  --btn-ghost-bg: rgba(215, 224, 223, 0.4);
+  --btn-ghost-hover: rgba(198, 208, 207, 0.6);
+}
+
+/* === Reset & Base === */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
   font-family: var(--sans);
   font-feature-settings: 'cv01', 'ss03';
   font-size: 16px;
@@ -28,60 +72,52 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  min-height: 100svh;
-  display: flex;
-  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1100px;
   box-sizing: border-box;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
 }
 
+/* === Typography === */
 h1, h2, h3, h4 {
   font-family: var(--sans);
   font-feature-settings: 'cv01', 'ss03';
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
   letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 h1 {
-  font-size: 48px;
-  line-height: 1.0;
-  letter-spacing: -1.056px;
+  font-size: clamp(2.5rem, 5vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 700;
 }
 
 h2 {
-  font-size: 32px;
-  line-height: 1.13;
-  letter-spacing: -0.704px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
 }
 
 h3 {
-  font-size: 20px;
-  line-height: 1.33;
-  letter-spacing: -0.24px;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  letter-spacing: -0.015px;
   font-weight: 600;
 }
 
 h4 {
-  font-size: 14px;
+  font-size: 0.8125rem;
   line-height: 1.5;
-  letter-spacing: -0.182px;
+  letter-spacing: 0.06em;
   font-weight: 500;
   text-transform: uppercase;
   color: var(--text-tertiary);
@@ -94,6 +130,7 @@ p {
 a {
   color: var(--accent);
   text-decoration: none;
+  transition: color 0.15s ease;
 }
 
 a:hover {
@@ -102,8 +139,8 @@ a:hover {
 
 code {
   font-family: var(--mono);
-  font-size: 14px;
-  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.875rem;
+  background: var(--tag-bg);
   padding: 2px 6px;
   border-radius: 4px;
   border: 1px solid var(--border-subtle);
@@ -111,11 +148,9 @@ code {
 
 @media (max-width: 768px) {
   h1 {
-    font-size: 36px;
-    letter-spacing: -0.8px;
+    font-size: clamp(1.75rem, 6vw, 2.25rem);
   }
   h2 {
-    font-size: 24px;
-    letter-spacing: -0.4px;
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
   }
 }
