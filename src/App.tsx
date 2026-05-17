@@ -25,7 +25,7 @@ function App() {
     localStorage.setItem('theme', theme)
   }, [theme])
 
-  // Typewriter: character-by-character with variable timing
+  // Typewriter: character-by-character on desktop, word-by-word on mobile
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) {
@@ -34,22 +34,38 @@ function App() {
       return
     }
 
-    let i = 0
+    const isMobile = window.innerWidth <= 640
     let timeout: ReturnType<typeof setTimeout>
 
-    function typeNext() {
-      if (i < headlineText.length) {
-        i++
-        setDisplayedLength(i)
-        const base = 50
-        const variation = 25
-        timeout = setTimeout(typeNext, base + (Math.random() - 0.5) * variation * 2)
-      } else {
-        setShowCursor(true)
+    if (!isMobile) {
+      // Desktop: character-by-character
+      let i = 0
+      function typeNext() {
+        if (i < headlineText.length) {
+          i++
+          setDisplayedLength(i)
+          timeout = setTimeout(typeNext, 50 + (Math.random() - 0.5) * 50)
+        } else {
+          setShowCursor(true)
+        }
       }
+      timeout = setTimeout(typeNext, 600)
+    } else {
+      // Mobile: word-by-word (no mid-word line breaks)
+      const words = headlineText.split(' ')
+      let w = 0
+      function typeNext() {
+        if (w < words.length) {
+          w++
+          setDisplayedLength(words.slice(0, w).join(' ').length)
+          timeout = setTimeout(typeNext, 180 + (Math.random() - 0.5) * 100)
+        } else {
+          setShowCursor(true)
+        }
+      }
+      timeout = setTimeout(typeNext, 600)
     }
 
-    timeout = setTimeout(typeNext, 600)
     return () => clearTimeout(timeout)
   }, [])
 
