@@ -140,6 +140,11 @@ nav {
   min-width: 0;
 }
 
+/* During typing: break at any character (terminal-like, no word jumping) */
+.headline-visible.typing {
+  word-break: break-all;
+}
+
 .hero-headline {
   margin-bottom: 24px;
 }

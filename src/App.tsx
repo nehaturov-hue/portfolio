@@ -200,7 +200,7 @@ function App() {
         </div>
         <h1 className="hero-headline" aria-label={headlineText}>
           <span aria-hidden="true" className="headline-ghost">{headlineText}</span>
-          <span className="headline-visible">
+          <span className={`headline-visible${showCursor ? '' : ' typing'}`}>
             {headlineText.slice(0, displayedLength)}
             <span className="typewriter-cursor" aria-hidden="true" style={{ opacity: showCursor ? undefined : 0 }}>│</span>
           </span>
