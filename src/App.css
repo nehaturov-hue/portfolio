@@ -168,6 +168,10 @@ nav {
   color: var(--text-primary);
 }
 
+.btn:active {
+  transform: translateY(1px);
+}
+
 .btn-primary:hover {
   background: var(--accent);
   color: var(--text-primary);

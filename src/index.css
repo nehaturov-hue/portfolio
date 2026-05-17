@@ -7,7 +7,7 @@
   --text-primary: #e9f0ef;
   --text-secondary: #bdc6c5;
   --text-tertiary: #798381;
-  --text-quaternary: #707c7b;
+  --text-quaternary: #656e6c;
   --brand: #009084;
   --accent: #00a89a;
   --btn-primary-bg: #006a5f;
@@ -150,7 +150,7 @@ h2 {
 h3 {
   font-size: 1.25rem;
   line-height: 1.35;
-  letter-spacing: -0.015px;
+  letter-spacing: -0.015em;
   font-weight: 600;
 }
 
