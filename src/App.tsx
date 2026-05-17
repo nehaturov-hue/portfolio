@@ -18,6 +18,7 @@ function App() {
 
   const [displayedLength, setDisplayedLength] = useState(0)
   const [showCursor, setShowCursor] = useState(false)
+  const [headlineHeight, setHeadlineHeight] = useState<number | undefined>(undefined)
   const headlineText = 'I Build Autonomous Systems'
 
   useEffect(() => {
@@ -25,7 +26,22 @@ function App() {
     localStorage.setItem('theme', theme)
   }, [theme])
 
-  // Typewriter: character-by-character on desktop, word-by-word on mobile
+  // Pre-measure headline height (renders full text invisibly, locks container before typing starts)
+  useEffect(() => {
+    const el = measureRef.current
+    if (!el) return
+    function lock() {
+      const h = el!.offsetHeight
+      if (h > 0) setHeadlineHeight(h)
+    }
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(lock)
+    } else {
+      setTimeout(lock, 100)
+    }
+  }, [])
+
+  // Typewriter: character-by-character (all screen sizes)
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) {
@@ -34,49 +50,22 @@ function App() {
       return
     }
 
-    const isMobile = window.innerWidth <= 640
+    let i = 0
     let timeout: ReturnType<typeof setTimeout>
 
-    if (!isMobile) {
-      // Desktop: character-by-character
-      let i = 0
-      function typeNext() {
-        if (i < headlineText.length) {
-          i++
-          setDisplayedLength(i)
-          timeout = setTimeout(typeNext, 50 + (Math.random() - 0.5) * 50)
-        } else {
-          setShowCursor(true)
-        }
+    function typeNext() {
+      if (i < headlineText.length) {
+        i++
+        setDisplayedLength(i)
+        timeout = setTimeout(typeNext, 50 + (Math.random() - 0.5) * 50)
+      } else {
+        setShowCursor(true)
       }
-      timeout = setTimeout(typeNext, 600)
-    } else {
-      // Mobile: word-by-word (no mid-word line breaks)
-      const words = headlineText.split(' ')
-      let w = 0
-      function typeNext() {
-        if (w < words.length) {
-          w++
-          setDisplayedLength(words.slice(0, w).join(' ').length)
-          timeout = setTimeout(typeNext, 180 + (Math.random() - 0.5) * 100)
-        } else {
-          setShowCursor(true)
-        }
-      }
-      timeout = setTimeout(typeNext, 600)
     }
 
+    timeout = setTimeout(typeNext, 600)
     return () => clearTimeout(timeout)
   }, [])
-
-  // Lock headline height once typewriter completes (prevents jump on mobile where text wraps)
-  useEffect(() => {
-    if (!showCursor || !headlineRef.current) return
-    const h = headlineRef.current.offsetHeight
-    if (h > 0) {
-      headlineRef.current.style.height = h + 'px'
-    }
-  }, [showCursor])
 
   const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
   const [menuOpen, setMenuOpen] = useState(false)
@@ -84,6 +73,7 @@ function App() {
   const menuRef = useRef<HTMLDivElement>(null)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
   const headlineRef = useRef<HTMLHeadingElement>(null)
+  const measureRef = useRef<HTMLHeadingElement>(null)
 
   // Escape key closes mobile menu, focus management on open/close
   useEffect(() => {
@@ -221,11 +211,34 @@ function App() {
 
       <main>
       <header id="hero">
+        {/* Hidden measurement: renders full text to pre-lock headline height */}
+        <h1
+          ref={measureRef}
+          aria-hidden="true"
+          style={{
+            visibility: 'hidden',
+            position: 'absolute',
+            pointerEvents: 'none',
+            height: 'auto',
+            ...{
+              fontSize: 'clamp(3rem, 9vw, 7rem)',
+              lineHeight: 0.95,
+              letterSpacing: '-0.04em',
+              fontWeight: 800,
+              fontFamily: "'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+              padding: 0,
+              margin: 0,
+              maxWidth: '100%',
+            },
+          }}
+        >
+          {headlineText}
+        </h1>
         <div className="hero-tag">
           <span className="dot" />
           Available for hire
         </div>
-        <h1 ref={headlineRef} className="hero-headline" aria-label={headlineText}>
+        <h1 ref={headlineRef} className="hero-headline" aria-label={headlineText} style={{ height: headlineHeight }}>
           {headlineText.slice(0, displayedLength)}
           <span className="typewriter-cursor" aria-hidden="true" style={{ opacity: showCursor ? undefined : 0 }}>│</span>
         </h1>
