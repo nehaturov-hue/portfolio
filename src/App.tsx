@@ -144,7 +144,7 @@ function App() {
 
   return (
     <>
-      <a className="skip-link" href="#projects">Skip to content</a>
+      <a className="skip-link" href="#hero">Skip to content</a>
       <nav aria-label="Main navigation">
         <span className="nav-brand">Kyryll Nehaturov</span>
         <div className="nav-right">
@@ -218,7 +218,7 @@ function App() {
             Download Resume
           </a>
           <a className="btn btn-ghost" href={linkedin} target="_blank" rel="noreferrer">
-            LinkedIn
+            LinkedIn<span className="sr-only"> (opens in new tab)</span>
           </a>
         </div>
       </header>
@@ -292,7 +292,7 @@ function App() {
             {email}
           </a>
           <a className="btn btn-ghost" href={linkedin} target="_blank" rel="noreferrer">
-            LinkedIn Profile
+            LinkedIn Profile<span className="sr-only"> (opens in new tab)</span>
           </a>
         </div>
       </section>

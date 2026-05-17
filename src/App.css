@@ -95,16 +95,12 @@ nav {
   padding: 6px 16px;
   border-radius: 9999px;
   border: 1px solid var(--brand);
-  background: rgba(0, 144, 132, 0.08);
+  background: var(--hero-tag-bg);
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--accent);
   margin-bottom: 28px;
   width: fit-content;
-}
-
-[data-theme="light"] .hero-tag {
-  background: rgba(0, 123, 110, 0.06);
 }
 
 .hero-tag .dot {
