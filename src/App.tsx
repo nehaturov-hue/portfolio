@@ -41,8 +41,8 @@ function App() {
       if (i < headlineText.length) {
         i++
         setDisplayedLength(i)
-        const base = 75
-        const variation = 35
+        const base = 50
+        const variation = 25
         timeout = setTimeout(typeNext, base + (Math.random() - 0.5) * variation * 2)
       } else {
         setShowCursor(true)
@@ -129,13 +129,13 @@ function App() {
     },
     {
       category: 'AI Agents',
-      skills: ['Hermes', 'OpenClaw'],
+      skills: ['Hermes', 'OpenClaw', 'Multi-agent orchestration', 'Prompt engineering', 'Tool use / function calling'],
     },
   ]
 
   const experience = [
     { period: 'Jan 2026 – Present', role: 'AI Engineer', company: 'Syntalith.ai' },
-    { period: '2022 – 2025', role: 'Driver / Courier', company: 'Various' },
+    { period: '2022 – 2025', role: 'Driver / Courier', company: 'Various · Built AI systems alongside delivery work' },
     { period: '2021 – 2022', role: 'Frontend Developer', company: 'Coax Software' },
     { period: '2019 – 2021', role: 'Full-Stack Developer', company: 'Visitech' },
   ]
@@ -213,7 +213,7 @@ function App() {
           <a className="btn btn-primary" href={`mailto:${email}`}>
             Get in touch
           </a>
-          <a className="btn btn-ghost" href="/resume.pdf">
+          <a className="btn btn-ghost" href="/resume.pdf" download>
             Download Resume
           </a>
           <a className="btn btn-ghost" href={linkedin} target="_blank" rel="noreferrer">
