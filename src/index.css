@@ -6,7 +6,7 @@
   --surface-hover: #111c1a;
   --text-primary: #e9f0ef;
   --text-secondary: #bdc6c5;
-  --text-tertiary: #798381;
+  --text-tertiary: #94a3a1;
   --text-quaternary: #7a8482;
   --brand: #009084;
   --accent: #00a89a;
@@ -22,7 +22,7 @@
   --tag-bg: rgba(9, 19, 17, 0.8);
   --btn-ghost-bg: rgba(9, 19, 17, 0.6);
   --btn-ghost-hover: rgba(17, 28, 26, 0.8);
-  --hero-tag-bg: rgba(0, 144, 132, 0.08);
+  --hero-tag-bg: rgba(0, 144, 132, 0.35);
 
   --sans: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -54,7 +54,7 @@
   --tag-bg: rgba(215, 224, 223, 0.5);
   --btn-ghost-bg: rgba(215, 224, 223, 0.4);
   --btn-ghost-hover: rgba(198, 208, 207, 0.6);
-  --hero-tag-bg: rgba(0, 123, 110, 0.06);
+  --hero-tag-bg: rgba(0, 123, 110, 0.18);
 }
 
 /* === Reset & Base === */
@@ -67,7 +67,8 @@
 /* Skip nav link — visually hidden until focused */
 .skip-link {
   position: absolute;
-  top: -100%;
+  top: 0;
+  transform: translateY(-100%);
   left: var(--page-px);
   padding: 12px 24px;
   background: var(--btn-primary-bg);
@@ -76,7 +77,7 @@
   font-size: 0.875rem;
   border-radius: 0 0 8px 8px;
   z-index: 100;
-  transition: top 0.15s ease;
+  transition: transform 0.15s ease;
 }
 
 [data-theme="light"] .skip-link {
@@ -84,7 +85,7 @@
 }
 
 .skip-link:focus {
-  top: 0;
+  transform: translateY(0);
 }
 
 /* Screen-reader only — visually hidden, accessible to AT */
