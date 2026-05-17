@@ -8,8 +8,6 @@ nav {
   justify-content: space-between;
   padding: 14px var(--page-px);
   background: var(--nav-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
   transition: background 0.3s ease;
 }
@@ -267,7 +265,7 @@ section {
 
 .tag {
   font-family: var(--mono);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 400;
   padding: 3px 10px;
   border-radius: 5px;
@@ -462,8 +460,6 @@ footer {
     flex-direction: column;
     gap: 0;
     background: var(--nav-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border-subtle);
     padding: 8px var(--page-px) 16px;
   }

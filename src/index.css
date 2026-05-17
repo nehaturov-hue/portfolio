@@ -7,7 +7,7 @@
   --text-primary: #e9f0ef;
   --text-secondary: #bdc6c5;
   --text-tertiary: #798381;
-  --text-quaternary: #656e6c;
+  --text-quaternary: #7a8482;
   --brand: #009084;
   --accent: #00a89a;
   --btn-primary-bg: #006a5f;
@@ -17,7 +17,7 @@
   --border-standard: #1a2422;
   --border-solid: #141d1b;
 
-  --nav-bg: rgba(3, 7, 6, 0.85);
+  --nav-bg: rgba(3, 7, 6, 0.96);
   --card-bg: rgba(9, 19, 17, 0.6);
   --tag-bg: rgba(9, 19, 17, 0.8);
   --btn-ghost-bg: rgba(9, 19, 17, 0.6);
@@ -49,7 +49,7 @@
   --border-standard: #c6d0cf;
   --border-solid: #aebab8;
 
-  --nav-bg: rgba(240, 247, 246, 0.88);
+  --nav-bg: rgba(240, 247, 246, 0.97);
   --card-bg: rgba(253, 255, 255, 0.7);
   --tag-bg: rgba(215, 224, 223, 0.5);
   --btn-ghost-bg: rgba(215, 224, 223, 0.4);
