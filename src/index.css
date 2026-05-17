@@ -10,7 +10,7 @@
   --text-quaternary: #707c7b;
   --brand: #009084;
   --accent: #00a89a;
-  --btn-primary-bg: #00756a;
+  --btn-primary-bg: #006a5f;
   --accent-hover: #3dbbae;
   --success: #00ac5f;
   --border-subtle: #101817;
@@ -134,7 +134,7 @@ h1 {
   font-size: clamp(3rem, 9vw, 7rem);
   line-height: 0.95;
   letter-spacing: -0.04em;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 h2 {

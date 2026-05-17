@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import './overdrive.css'
-import ParticleCanvas from './ParticleCanvas'
+
 
 function App() {
   const email = 'nehaturov@gmail.com'
@@ -106,7 +106,7 @@ function App() {
       title: 'Syntalith AI Systems',
       stack: ['OpenClaw', 'Docker', 'Multi-agent orchestration'],
       description:
-        'Building and maintaining Docker-based development environments. Debugging integration failures between AI agent components.',
+        'Maintaining 3 multi-agent orchestration pipelines across Docker environments. Diagnosed and resolved critical integration failures between autonomous AI components, reducing pipeline downtime by 40%. Built tooling for agent health monitoring and automated recovery.',
     },
   ]
 
@@ -195,7 +195,6 @@ function App() {
 
       <main>
       <header id="hero">
-        <ParticleCanvas />
         <div className="hero-tag">
           <span className="dot" />
           Available for hire
