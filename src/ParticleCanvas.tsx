@@ -190,7 +190,7 @@ export default function ParticleCanvas() {
 
     window.addEventListener('resize', resize)
     window.addEventListener('mousemove', handleMouseMove)
-    canvas.addEventListener('mouseleave', handleMouseLeave)
+    canvas.parentElement?.addEventListener('mouseleave', handleMouseLeave)
     document.addEventListener('visibilitychange', handleVisibility)
 
     return () => {
@@ -198,7 +198,7 @@ export default function ParticleCanvas() {
       themeObserver.disconnect()
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', handleMouseMove)
-      canvas.removeEventListener('mouseleave', handleMouseLeave)
+      canvas.parentElement?.removeEventListener('mouseleave', handleMouseLeave)
       document.removeEventListener('visibilitychange', handleVisibility)
     }
   }, [])

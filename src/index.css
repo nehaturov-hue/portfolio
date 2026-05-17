@@ -2,7 +2,6 @@
 :root {
   /* Dark theme (default) — warm teal tinted neutrals */
   --bg: #030706;
-  --panel: #050b0a;
   --surface: #091311;
   --surface-hover: #111c1a;
   --text-primary: #e9f0ef;
@@ -34,7 +33,6 @@
 
 [data-theme="light"] {
   --bg: #f0f7f6;
-  --panel: #f8fdfc;
   --surface: #fdffff;
   --surface-hover: #e4edec;
   --text-primary: #030b0a;
@@ -146,6 +144,15 @@ h4 {
   color: var(--text-tertiary);
 }
 
+.skill-category {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
 p {
   margin: 0;
 }
@@ -158,6 +165,10 @@ a {
 
 a:hover {
   color: var(--accent-hover);
+}
+
+a:not(.btn):hover {
+  text-decoration: underline;
 }
 
 :focus-visible {

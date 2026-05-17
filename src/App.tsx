@@ -67,6 +67,20 @@ function App() {
         setMenuOpen(false)
         hamburgerRef.current?.focus()
       }
+      // Focus trap: keep Tab within the menu
+      if (e.key === 'Tab') {
+        const focusable = menuRef.current?.querySelectorAll('a, button, [tabindex]')
+        if (!focusable || focusable.length === 0) return
+        const first = focusable[0] as HTMLElement
+        const last = focusable[focusable.length - 1] as HTMLElement
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
     }
     document.addEventListener('keydown', handleKeyDown)
     // Focus first link when menu opens
@@ -209,9 +223,9 @@ function App() {
         </div>
       </header>
 
-      <section id="projects">
+      <section id="projects" aria-labelledby="projects-heading">
         <div className="section-header reveal">
-          <h2>Projects</h2>
+          <h2 id="projects-heading">Projects</h2>
           <p>Production systems I designed and shipped.</p>
         </div>
         <div className="project-grid">
@@ -231,30 +245,30 @@ function App() {
         </div>
       </section>
 
-      <section id="experience">
+      <section id="experience" aria-labelledby="experience-heading">
         <div className="section-header reveal">
-          <h2>Experience</h2>
+          <h2 id="experience-heading">Experience</h2>
         </div>
-        <div className="timeline">
+        <ul className="timeline" role="list">
           {experience.map((e, i) => (
-            <div className={`timeline-row ${stagger(i)}`} key={e.period}>
+            <li className={`timeline-row ${stagger(i)}`} key={e.period}>
               <span className="timeline-period">{e.period}</span>
               <span className="timeline-role">{e.role}</span>
               <span className="timeline-company">{e.company}</span>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
-      <section id="skills">
+      <section id="skills" aria-labelledby="skills-heading">
         <div className="section-header reveal">
-          <h2>Skills</h2>
+          <h2 id="skills-heading">Skills</h2>
           <p>Stack I reach for when building production systems.</p>
         </div>
-        <div className="skills-grid">
+        <ul className="skills-grid" role="list">
           {skillGroups.map((g, i) => (
-            <div className={`skill-group ${stagger(i)}`} key={g.category}>
-              <h4>{g.category}</h4>
+            <li className={`skill-group ${stagger(i)}`} key={g.category}>
+              <h3 className="skill-category">{g.category}</h3>
               <div className="skill-tags">
                 {g.skills.map((s) => (
                   <span className="tag" key={s}>
@@ -262,13 +276,13 @@ function App() {
                   </span>
                 ))}
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
-      <section id="contact">
-        <h2 className="reveal">Let's work together</h2>
+      <section id="contact" aria-labelledby="contact-heading">
+        <h2 id="contact-heading" className="reveal">Let's work together</h2>
         <p className="contact-text reveal">
           Open to any role where I can contribute. Technical or hands-on, office
           or warehouse. Full-time or part-time. I reply within 24 hours.
