@@ -201,9 +201,13 @@ function App() {
         <h1 className="hero-headline" aria-label={headlineText}>
           <span className="headline-visible">
             {headlineText.split('').map((char, i) => (
-              <span key={i} style={{ opacity: i < displayedLength ? 1 : 0 }}>{char}</span>
+              <span key={i}>
+                <span style={{ opacity: i < displayedLength ? 1 : 0 }}>{char}</span>
+                {i === displayedLength - 1 && (
+                  <span className="typewriter-cursor" aria-hidden="true" style={{ opacity: showCursor ? undefined : 0 }}>│</span>
+                )}
+              </span>
             ))}
-            <span className="typewriter-cursor" aria-hidden="true" style={{ opacity: showCursor ? undefined : 0 }}>│</span>
           </span>
         </h1>
         <p className="hero-subtitle">
