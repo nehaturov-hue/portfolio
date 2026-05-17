@@ -140,8 +140,11 @@ nav {
   min-width: 0;
 }
 
-/* During typing: break at any character (terminal-like, no word jumping) */
-.headline-visible.typing {
+/* During typing: both ghost and visible break at character boundaries.
+   This keeps line breaks in sync — visible text wraps at the same position
+   as the ghost, preventing the "jumping word" effect on mobile. */
+.hero-headline.typing .headline-ghost,
+.hero-headline.typing .headline-visible {
   word-break: break-all;
 }
 
