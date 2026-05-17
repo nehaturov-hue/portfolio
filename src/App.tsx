@@ -53,11 +53,21 @@ function App() {
     return () => clearTimeout(timeout)
   }, [])
 
+  // Lock headline height once typewriter completes (prevents jump on mobile where text wraps)
+  useEffect(() => {
+    if (!showCursor || !headlineRef.current) return
+    const h = headlineRef.current.offsetHeight
+    if (h > 0) {
+      headlineRef.current.style.height = h + 'px'
+    }
+  }, [showCursor])
+
   const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
   const [menuOpen, setMenuOpen] = useState(false)
   const closeMenu = () => setMenuOpen(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
+  const headlineRef = useRef<HTMLHeadingElement>(null)
 
   // Escape key closes mobile menu, focus management on open/close
   useEffect(() => {
@@ -199,7 +209,7 @@ function App() {
           <span className="dot" />
           Available for hire
         </div>
-        <h1 className="hero-headline" aria-label={headlineText}>
+        <h1 ref={headlineRef} className="hero-headline" aria-label={headlineText}>
           {headlineText.slice(0, displayedLength)}
           <span className="typewriter-cursor" aria-hidden="true" style={{ opacity: showCursor ? undefined : 0 }}>│</span>
         </h1>
