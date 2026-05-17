@@ -198,10 +198,11 @@ function App() {
           <span className="dot" />
           Available for hire
         </div>
-        <h1 className={`hero-headline${showCursor ? '' : ' typing'}`} aria-label={headlineText}>
-          <span aria-hidden="true" className="headline-ghost">{headlineText}</span>
+        <h1 className="hero-headline" aria-label={headlineText}>
           <span className="headline-visible">
-            {headlineText.slice(0, displayedLength)}
+            {headlineText.split('').map((char, i) => (
+              <span key={i} style={{ opacity: i < displayedLength ? 1 : 0 }}>{char}</span>
+            ))}
             <span className="typewriter-cursor" aria-hidden="true" style={{ opacity: showCursor ? undefined : 0 }}>│</span>
           </span>
         </h1>

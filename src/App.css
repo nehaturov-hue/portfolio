@@ -122,32 +122,6 @@ nav {
   }
 }
 
-/* Headline: grid overlay — ghost text sizes container, visible text animates on top */
-.hero-headline {
-  display: grid;
-}
-
-.hero-headline > * {
-  grid-area: 1 / -1;
-}
-
-.headline-ghost {
-  visibility: hidden;
-  user-select: none;
-}
-
-.headline-visible {
-  min-width: 0;
-}
-
-/* During typing: both ghost and visible break at character boundaries.
-   This keeps line breaks in sync — visible text wraps at the same position
-   as the ghost, preventing the "jumping word" effect on mobile. */
-.hero-headline.typing .headline-ghost,
-.hero-headline.typing .headline-visible {
-  word-break: break-all;
-}
-
 .hero-headline {
   margin-bottom: 24px;
 }
