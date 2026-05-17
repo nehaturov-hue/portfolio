@@ -122,7 +122,24 @@ nav {
   }
 }
 
-/* Headline: full-width, no max-width constraint */
+/* Headline: grid overlay — ghost text sizes container, visible text animates on top */
+.hero-headline {
+  display: grid;
+}
+
+.hero-headline > * {
+  grid-area: 1 / -1;
+}
+
+.headline-ghost {
+  visibility: hidden;
+  user-select: none;
+}
+
+.headline-visible {
+  min-width: 0;
+}
+
 .hero-headline {
   margin-bottom: 24px;
 }

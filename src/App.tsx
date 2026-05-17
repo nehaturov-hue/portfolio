@@ -18,28 +18,12 @@ function App() {
 
   const [displayedLength, setDisplayedLength] = useState(0)
   const [showCursor, setShowCursor] = useState(false)
-  const [headlineHeight, setHeadlineHeight] = useState<number | undefined>(undefined)
   const headlineText = 'I Build Autonomous Systems'
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('theme', theme)
   }, [theme])
-
-  // Pre-measure headline height (renders full text invisibly, locks container before typing starts)
-  useEffect(() => {
-    const el = measureRef.current
-    if (!el) return
-    function lock() {
-      const h = el!.offsetHeight
-      if (h > 0) setHeadlineHeight(h)
-    }
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(lock)
-    } else {
-      setTimeout(lock, 100)
-    }
-  }, [])
 
   // Typewriter: character-by-character (all screen sizes)
   useEffect(() => {
@@ -72,8 +56,7 @@ function App() {
   const closeMenu = () => setMenuOpen(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
-  const headlineRef = useRef<HTMLHeadingElement>(null)
-  const measureRef = useRef<HTMLHeadingElement>(null)
+
 
   // Escape key closes mobile menu, focus management on open/close
   useEffect(() => {
@@ -211,36 +194,16 @@ function App() {
 
       <main>
       <header id="hero">
-        {/* Hidden measurement: renders full text to pre-lock headline height */}
-        <h1
-          ref={measureRef}
-          aria-hidden="true"
-          style={{
-            visibility: 'hidden',
-            position: 'absolute',
-            pointerEvents: 'none',
-            height: 'auto',
-            ...{
-              fontSize: 'clamp(3rem, 9vw, 7rem)',
-              lineHeight: 0.95,
-              letterSpacing: '-0.04em',
-              fontWeight: 800,
-              fontFamily: "'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
-              padding: 0,
-              margin: 0,
-              maxWidth: '100%',
-            },
-          }}
-        >
-          {headlineText}
-        </h1>
         <div className="hero-tag">
           <span className="dot" />
           Available for hire
         </div>
-        <h1 ref={headlineRef} className="hero-headline" aria-label={headlineText} style={{ height: headlineHeight }}>
-          {headlineText.slice(0, displayedLength)}
-          <span className="typewriter-cursor" aria-hidden="true" style={{ opacity: showCursor ? undefined : 0 }}>│</span>
+        <h1 className="hero-headline" aria-label={headlineText}>
+          <span aria-hidden="true" className="headline-ghost">{headlineText}</span>
+          <span className="headline-visible">
+            {headlineText.slice(0, displayedLength)}
+            <span className="typewriter-cursor" aria-hidden="true" style={{ opacity: showCursor ? undefined : 0 }}>│</span>
+          </span>
         </h1>
         <p className="hero-subtitle">
           Systems admin from Odesa with 3 years of commercial development in React,
