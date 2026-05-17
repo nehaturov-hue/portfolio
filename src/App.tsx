@@ -28,7 +28,7 @@ function App() {
   // Typewriter: character-by-character with variable timing
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced || window.innerWidth <= 600) {
+    if (prefersReduced || window.innerWidth <= 640) {
       setDisplayedLength(headlineText.length)
       setShowCursor(true)
       return

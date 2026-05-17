@@ -11,6 +11,7 @@
   --text-quaternary: #707c7b;
   --brand: #009084;
   --accent: #00a89a;
+  --btn-primary-bg: #00756a;
   --accent-hover: #3dbbae;
   --success: #00ac5f;
   --border-subtle: #101817;
@@ -42,6 +43,7 @@
   --text-quaternary: #616d6b;
   --brand: #007b6e;
   --accent: #006b5f;
+  --btn-primary-bg: #007b6e;
   --accent-hover: #00544a;
   --success: #008b45;
   --border-subtle: #d7e0df;
@@ -93,7 +95,6 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Full-width root — no max-width constraint */

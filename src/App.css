@@ -166,12 +166,8 @@ nav {
 }
 
 .btn-primary {
-  background: var(--brand);
+  background: var(--btn-primary-bg);
   color: var(--text-primary);
-}
-
-[data-theme="dark"] .btn-primary {
-  background: #00756a;
 }
 
 .btn-primary:hover {
@@ -448,15 +444,6 @@ footer {
 }
 
 @media (max-width: 640px) {
-  .nav-links {
-    gap: 16px;
-  }
-  .nav-links a {
-    font-size: 0.8125rem;
-  }
-}
-
-@media (max-width: 480px) {
   .skills-grid {
     grid-template-columns: 1fr;
   }
