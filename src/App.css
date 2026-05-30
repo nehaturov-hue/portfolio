@@ -283,6 +283,12 @@ section {
   flex: 1;
 }
 
+.project-demo-link {
+  margin-top: auto;
+  align-self: flex-start;
+  font-size: 0.8125rem;
+}
+
 /* === Experience: full-width timeline === */
 .timeline {
   display: flex;

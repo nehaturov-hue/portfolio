@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Wiki Infrastructure · Kyryll Nehaturov</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ── DESIGN TOKENS ── */
+  :root {
+    --page-px: clamp(24px, 5vw, 80px);
+    --content-max: 900px;
+    --sans: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    /* Dark theme (default) */
+    --bg: #030706;
+    --surface: #091311;
+    --surface-hover: #111c1a;
+    --text-primary: #e9f0ef;
+    --text-secondary: #bdc6c5;
+    --text-tertiary: #94a3a1;
+    --text-quaternary: #7a8482;
+    --brand: #009084;
+    --accent: #00a89a;
+    --btn-primary-bg: #006a5f;
+    --accent-hover: #3dbbae;
+    --success: #00ac5f;
+    --border-subtle: #101817;
+    --border-standard: #1a2422;
+    --border-solid: #141d1b;
+    --nav-bg: rgba(3, 7, 6, 0.96);
+    --card-bg: rgba(9, 19, 17, 0.6);
+    --tag-bg: rgba(9, 19, 17, 0.8);
+    --btn-ghost-bg: rgba(9, 19, 17, 0.6);
+    --btn-ghost-hover: rgba(17, 28, 26, 0.8);
+    --hero-tag-bg: rgba(0, 144, 132, 0.35);
+  }
+
+  /* Light theme */
+  [data-theme="light"] {
+    --bg: #f0f7f6;
+    --surface: #fdffff;
+    --surface-hover: #e4edec;
+    --text-primary: #030b0a;
+    --text-secondary: #26302f;
+    --text-tertiary: #525e5c;
+    --text-quaternary: #616d6b;
+    --brand: #007b6e;
+    --accent: #006b5f;
+    --btn-primary-bg: #007b6e;
+    --accent-hover: #00544a;
+    --success: #008b45;
+    --border-subtle: #d7e0df;
+    --border-standard: #c6d0cf;
+    --border-solid: #aebab8;
+    --nav-bg: rgba(240, 247, 246, 0.97);
+    --card-bg: rgba(253, 255, 255, 0.7);
+    --tag-bg: rgba(215, 224, 223, 0.5);
+    --btn-ghost-bg: rgba(215, 224, 223, 0.4);
+    --btn-ghost-hover: rgba(198, 208, 207, 0.6);
+    --hero-tag-bg: rgba(0, 123, 110, 0.18);
+  }
+
+  /* ── RESET ── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'cv01', 'ss03';
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text-secondary);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0 var(--page-px);
+  }
+  nav .nav-inner {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 56px;
+    overflow-x: auto;
+  }
+  nav .nav-inner::-webkit-scrollbar { display: none; }
+  nav a {
+    color: var(--text-tertiary);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    font-family: var(--mono);
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent); }
+  nav .nav-brand {
+    color: var(--text-primary) !important;
+    font-weight: 600;
+    font-size: 0.85rem !important;
+    margin-right: auto;
+    font-family: var(--sans);
+    letter-spacing: -0.01em;
+  }
+  nav .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+  }
+  .theme-toggle {
+    background: var(--btn-ghost-bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-tertiary);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .theme-toggle:hover {
+    background: var(--btn-ghost-hover);
+    color: var(--text-primary);
+  }
+  .theme-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ── LAYOUT ── */
+  section {
+    padding: 5rem 0;
+    padding-left: var(--page-px);
+    padding-right: var(--page-px);
+  }
+
+  .section-intro {
+    max-width: var(--content-max);
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  h1 {
+    font-family: var(--sans);
+    font-size: clamp(3rem, 9vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+  h2 {
+    font-family: var(--sans);
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+  h3 {
+    font-family: var(--sans);
+    font-size: 1.25rem;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  p { margin-bottom: 1rem; }
+  .lead {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: var(--content-max);
+    line-height: 1.7;
+  }
+  .subtitle {
+    font-family: var(--sans);
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    color: var(--text-tertiary);
+    margin-top: 0.6rem;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 5px;
+    background: var(--tag-bg);
+    color: var(--text-tertiary);
+    border: 1px solid var(--border-subtle);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 6rem var(--page-px) 5rem;
+    border-bottom: 1px solid var(--border-subtle);
+    position: relative;
+  }
+  .hero .system-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    border: 1px solid rgba(0, 168, 154, 0.2);
+    border-radius: 5px;
+    padding: 3px 10px;
+    background: var(--hero-tag-bg);
+    margin-bottom: 2rem;
+    letter-spacing: 0.04em;
+  }
+  .hero .system-badge .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .hero .back-link {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-quaternary);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+  }
+  .hero .back-link:hover { color: var(--accent); }
+
+  /* ── PIPELINE FLOW ── */
+  .pipeline-flow {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 2.5rem 0;
+  }
+  .pipeline-stage {
+    background: var(--card-bg);
+    border: 1px solid var(--border-standard);
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+  .pipeline-stage:hover {
+    border-color: var(--accent);
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+  }
+  .pipeline-stage::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 12px 12px 0 0;
+    animation: flow-stage 4s ease-in-out infinite;
+  }
+  .pipeline-stage:nth-child(1)::before { animation-delay: 0s; }
+  .pipeline-stage:nth-child(2)::before { animation-delay: 1s; }
+  .pipeline-stage:nth-child(3)::before { animation-delay: 2s; }
+  .pipeline-stage:nth-child(4)::before { animation-delay: 3s; }
+  @keyframes flow-stage {
+    0% { width: 0; opacity: 0; }
+    10% { opacity: 1; }
+    25% { width: 100%; opacity: 1; }
+    35% { width: 100%; opacity: 0; }
+    100% { width: 100%; opacity: 0; }
+  }
+  .pipeline-stage.stage-compile {
+    border-color: var(--accent);
+  }
+
+  .pipeline-stage .stage-num {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    opacity: 0.7;
+  }
+  .pipeline-stage .stage-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-family: var(--sans);
+  }
+  .pipeline-stage .stage-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ── ORCHESTRATOR DIAGRAM ── */
+  .orch-diagram {
+    background: var(--surface);
+    border: 1px solid var(--border-standard);
+    border-radius: 12px;
+    padding: 1.5rem 2rem 1.5rem 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    line-height: 2.2;
+    color: var(--text-secondary);
+    margin: 2rem 0;
+  }
+  .orch-diagram .orch-root {
+    color: var(--accent);
+    font-weight: 600;
+    font-family: var(--sans);
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .orch-diagram .orch-worker { color: var(--text-primary); }
+  .orch-diagram .orch-arrow { color: var(--accent); font-weight: 600; }
+  .orch-diagram .orch-skill { color: var(--text-tertiary); font-family: var(--mono); font-size: 0.8rem; }
+  .orch-diagram .orch-row { display: flex; align-items: center; gap: 0.5rem; }
+  .orch-diagram .orch-profile { color: var(--text-quaternary); font-family: var(--mono); font-size: 0.8rem; }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--border-standard);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.9;
+    color: var(--text-secondary);
+    overflow-x: auto;
+    margin: 1.2rem 0;
+    position: relative;
+  }
+  .code-block .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .code-block .code-header .code-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+  }
+  .code-block .code-header .code-tag {
+    font-size: 0.65rem;
+    color: var(--accent);
+    border: 1px solid rgba(0, 168, 154, 0.2);
+    border-radius: 5px;
+    padding: 3px 10px;
+    background: var(--tag-bg);
+  }
+  .code-block .fact-line { color: var(--text-secondary); }
+  .code-block .fact-source { color: var(--text-quaternary); }
+  .code-block .fact-rule { color: var(--accent); font-weight: 600; }
+  .code-block .keyword { color: var(--accent); }
+  .code-block .string { color: var(--success); }
+  .code-block .comment { color: var(--text-quaternary); font-style: italic; }
+  .code-block .removed { color: var(--accent); text-decoration: line-through; opacity: 0.7; }
+  .code-block .label { color: var(--text-tertiary); }
+
+  /* ── STATS TABLE (timeline-row style) ── */
+  .stats-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 1.5rem 0;
+  }
+  .stats-header {
+    display: grid;
+    grid-template-columns: 1fr 100px 100px 80px 100px;
+    gap: 1rem;
+    padding: 0.6rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-quaternary);
+  }
+  .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 100px 100px 80px 100px;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .stats-row:hover {
+    border-color: var(--accent);
+    background: var(--surface-hover);
+  }
+  .stats-row .wiki-name {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-family: var(--sans);
+  }
+  .stats-row .num {
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .stats-row .interval { color: var(--text-secondary); }
+  .status-active {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    color: var(--success);
+  }
+  .status-active::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: pulse 2s infinite;
+  }
+
+  /* ── CONFIDENCE DISTRIBUTION ── */
+  .confidence-dist {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 1.5rem 0;
+    max-width: 560px;
+  }
+  .conf-bar-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 60px;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+  }
+  .conf-bar-row .conf-label {
+    color: var(--text-secondary);
+    text-align: right;
+  }
+  .conf-bar-track {
+    height: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .conf-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s ease-out;
+  }
+  .conf-bar-fill.c-unknown { background: var(--text-quaternary); }
+  .conf-bar-fill.c-high { background: var(--success); }
+  .conf-bar-fill.c-medium { background: var(--accent); }
+  .conf-bar-fill.c-medium-high { background: var(--brand); }
+  .conf-bar-fill.c-low { background: #c49a3c; }
+  .conf-bar-row .conf-num {
+    color: var(--text-quaternary);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── CASE STUDY ── */
+  .case-study {
+    background: var(--card-bg);
+    border: 1px solid var(--border-standard);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+  .case-study:hover {
+    border-color: var(--accent);
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+  }
+  .case-study::before {
+    content: 'CASE STUDY';
+    position: absolute;
+    top: -0.6em;
+    left: 1.5rem;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--card-bg);
+    padding: 0 0.5em;
+  }
+  .case-study .cs-title {
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  .case-study .cs-detail {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 0.3rem 1rem;
+    font-size: 0.85rem;
+    margin: 0.8rem 0;
+  }
+  .case-study .cs-detail dt {
+    color: var(--text-tertiary);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-top: 0.15em;
+  }
+  .case-study .cs-detail dd {
+    color: var(--text-secondary);
+  }
+  .case-study .cs-result {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .cs-result .highlight-removed {
+    color: var(--text-tertiary);
+    text-decoration: line-through;
+    font-weight: 500;
+  }
+  .cs-result .highlight-kept {
+    color: var(--success);
+    font-weight: 600;
+  }
+  .cs-result .highlight-warn {
+    color: var(--text-tertiary);
+  }
+
+  /* ── PROBLEM GRID ── */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 2rem 0;
+  }
+  .problem-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-standard);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+  .problem-card:hover {
+    border-color: var(--accent);
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+  }
+  .problem-card h3 { color: var(--accent); }
+  .problem-card ul {
+    list-style: none;
+    margin-top: 0.8rem;
+  }
+  .problem-card ul li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    padding: 0.3rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+  .problem-card ul li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--text-quaternary);
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  .scope-example {
+    background: var(--surface);
+    border: 1px solid var(--border-standard);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.9;
+    overflow-x: auto;
+  }
+  .scope-caption {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    color: var(--text-quaternary);
+    margin: 0.8rem 0 0;
+  }
+
+  /* ── VISION BLOCK ── */
+  .vision-block {
+    background: var(--surface);
+    border: 1px solid var(--border-standard);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  .vision-row {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    line-height: 2;
+    margin: 0.5rem 0;
+  }
+  .vision-row .v-label {
+    display: inline-block;
+    width: 70px;
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .vision-row .v-current { color: var(--text-secondary); }
+  .vision-row .v-target { color: var(--accent); }
+  .vision-flow {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 1rem 0 0.5rem;
+    padding-left: 70px;
+    line-height: 2;
+  }
+  .vision-flow .vf-step { color: var(--accent); }
+
+  /* ── TECH GRID ── */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin: 2rem 0;
+  }
+  .tech-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border-standard);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+  .tech-item:hover {
+    border-color: var(--accent);
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+  }
+  .tech-item .tech-label {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 0.6rem;
+  }
+  .tech-item p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── STEP LIST ── */
+  .step-list {
+    counter-reset: steps;
+    list-style: none;
+    margin: 1.5rem 0;
+    max-width: 640px;
+  }
+  .step-list li {
+    counter-increment: steps;
+    padding: 0.6rem 0 0.6rem 2.5rem;
+    position: relative;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-left: 0.6rem;
+  }
+  .step-list li::before {
+    content: counter(steps);
+    position: absolute;
+    left: -0.65rem;
+    top: 0.55rem;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--border-standard);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── ALERT BOX ── */
+  .alert-box {
+    margin-top: 2.5rem;
+    padding: 1.5rem 2rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-standard);
+    border-radius: 12px;
+  }
+  .alert-box p {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.7;
+  }
+  .alert-box strong { color: var(--accent); }
+
+  /* ── CONVERGENCE BOX ── */
+  .convergence-box {
+    text-align: center;
+    margin: 2rem 0 1rem;
+  }
+  .convergence-box .convergence-label {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+    margin-bottom: 0.8rem;
+  }
+  .convergence-box .convergence-paths {
+    display: inline-block;
+    background: var(--surface);
+    border: 1px solid var(--border-standard);
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .convergence-box .convergence-note {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-quaternary);
+    margin-top: 0.6rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 3rem var(--page-px);
+    text-align: left;
+    border-top: 1px solid var(--border-subtle);
+  }
+  footer p {
+    font-size: 0.8125rem;
+    color: var(--text-quaternary);
+    margin: 0;
+  }
+  footer .footer-stat {
+    font-size: 0.8125rem;
+    color: var(--text-quaternary);
+    margin-top: 0.4rem;
+  }
+  footer .footer-stat span {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .problem-grid {
+      grid-template-columns: 1fr;
+    }
+    .stats-header,
+    .stats-row {
+      grid-template-columns: 1fr 80px 80px 60px 80px;
+      font-size: 0.75rem;
+    }
+  }
+  @media (max-width: 768px) {
+    section { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+    .hero { padding-top: 4rem; padding-bottom: 3.5rem; }
+    .case-study .cs-detail { grid-template-columns: 80px 1fr; }
+    .stats-header,
+    .stats-row {
+      grid-template-columns: 1fr 70px 70px;
+    }
+    .stats-header > *:nth-child(4),
+    .stats-header > *:nth-child(5),
+    .stats-row > *:nth-child(4),
+    .stats-row > *:nth-child(5) {
+      display: none;
+    }
+  }
+  @media (max-width: 640px) {
+    .tech-grid {
+      grid-template-columns: 1fr;
+    }
+    .convergence-box .convergence-paths {
+      font-size: 0.72rem;
+      padding: 0.8rem 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="../" class="nav-brand">Kyryll Nehaturov</a>
+    <div class="nav-right">
+      <a href="#pipeline">processes</a>
+      <a href="#stats">stats</a>
+      <a href="#anti-hallucination">anti-hallucination</a>
+      <a href="#scope-creep">scope creep</a>
+      <a href="#roadmap">roadmap</a>
+      <a href="#stack">stack</a>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="moon-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <a href="../" class="back-link">← Back to portfolio</a>
+  <div class="system-badge">
+    <span class="dot"></span>
+    3 wikis · 3,736 pages · 1,466 runs and counting
+  </div>
+  <h1>Agentic Wiki<br>Infrastructure</h1>
+  <p class="subtitle">I build systems that compile knowledge from sources, catch their own hallucinations, and run 24/7 without a database.</p>
+  <p class="lead">
+    Four parallel processes maintain three independent wikis with over 3,700 pages. Each process runs on its own cron cycle, catches hallucinations at compile time, and converges on the same markdown files. No database, no API, no shared state.
+  </p>
+</header>
+
+<!-- SECTION 1: PIPELINE ARCHITECTURE -->
+<section id="pipeline">
+  <div class="section-intro">
+    <h2>Parallel Processes</h2>
+    <p>Four independent processes run simultaneously against the same wiki data. Each has its own cron cycle, its own profile, and its own agent session. They don't wait for each other. They don't share state. They converge on the same files from different angles.</p>
+  </div>
+
+  <div class="pipeline-flow">
+    <div class="pipeline-stage">
+      <div class="stage-num">Independent Process</div>
+      <div class="stage-name">Research</div>
+      <div class="stage-desc">Finds authoritative sources, writes raw articles to disk. Agent-driven web search with source attribution. Own cron cycle.</div>
+    </div>
+    <div class="pipeline-stage stage-compile">
+      <div class="stage-num">Independent Process</div>
+      <div class="stage-name">Compile</div>
+      <div class="stage-desc">Orchestrator-worker delegation. Fact-log mandatory. Anti-hallucination self-validation. Own cron cycle, own profile.</div>
+    </div>
+    <div class="pipeline-stage">
+      <div class="stage-num">Independent Process</div>
+      <div class="stage-name">Validate</div>
+      <div class="stage-desc">Quality gate. Checks body accuracy against raw sources. Assigns confidence rating. Runs independently.</div>
+    </div>
+    <div class="pipeline-stage">
+      <div class="stage-num">Independent Process</div>
+      <div class="stage-name">Lint</div>
+      <div class="stage-desc">Structural integrity. Frontmatter compliance, wikilink resolution, tag taxonomy enforcement. Own schedule.</div>
+    </div>
+  </div>
+
+  <div class="convergence-box">
+    <div class="convergence-label">All four processes converge on the same data</div>
+    <div class="convergence-paths">
+      ~/Music/wiki/ &nbsp;&nbsp; ~/health-wiki/ &nbsp;&nbsp; ~/.hermes/profiles/jobseek/wiki/
+    </div>
+    <div class="convergence-note">Markdown files + YAML frontmatter. No database. No shared state.</div>
+  </div>
+
+  <h3>Orchestrator-Worker Pattern</h3>
+  <p>Compilation uses delegate_task to parallelize across worker agents. Each worker handles one entity file independently.</p>
+
+  <div class="orch-diagram">
+    <span class="orch-root">Orchestrator</span>
+    <span class="orch-profile">wiki-compile profile</span>
+    <div class="orch-row"><span class="orch-arrow">→</span> <span class="orch-worker">Worker A</span> <span class="orch-skill">wiki-compile-entity skill</span></div>
+    <div class="orch-row"><span class="orch-arrow">→</span> <span class="orch-worker">Worker B</span> <span class="orch-skill">wiki-compile-entity skill</span></div>
+    <div class="orch-row"><span class="orch-arrow">→</span> <span class="orch-worker">Worker C</span> <span class="orch-skill">wiki-compile-entity skill</span></div>
+  </div>
+</section>
+
+<!-- SECTION 2: LIVE STATS -->
+<section id="stats">
+  <div class="section-intro">
+    <h2>Live Stats</h2>
+    <p>Real numbers from the running system. All three wikis operate on independent 1-minute cron cycles with script pre-run and LLM delegation.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stats-header">
+      <span>Wiki</span>
+      <span>Pages</span>
+      <span>Cron Runs</span>
+      <span>Interval</span>
+      <span>Status</span>
+    </div>
+    <div class="stats-row">
+      <span class="wiki-name">Music</span>
+      <span class="num">3,145</span>
+      <span class="num">480</span>
+      <span class="interval">1 min</span>
+      <span><span class="status-active">Active</span></span>
+    </div>
+    <div class="stats-row">
+      <span class="wiki-name">Jobseek</span>
+      <span class="num">541</span>
+      <span class="num">534</span>
+      <span class="interval">1 min</span>
+      <span><span class="status-active">Active</span></span>
+    </div>
+    <div class="stats-row">
+      <span class="wiki-name">Health</span>
+      <span class="num">50</span>
+      <span class="num">452</span>
+      <span class="interval">1 min</span>
+      <span><span class="status-active">Active</span></span>
+    </div>
+  </div>
+
+  <h3>Confidence Distribution</h3>
+  <p style="font-size:0.85rem;">3,145 pages rated across 5 confidence tiers based on source coverage and fact-log density.</p>
+
+  <div class="confidence-dist">
+    <div class="conf-bar-row">
+      <span class="conf-label">unknown</span>
+      <div class="conf-bar-track"><div class="conf-bar-fill c-unknown" style="width:100%"></div></div>
+      <span class="conf-num">1,552</span>
+    </div>
+    <div class="conf-bar-row">
+      <span class="conf-label">high</span>
+      <div class="conf-bar-track"><div class="conf-bar-fill c-high" style="width:56%"></div></div>
+      <span class="conf-num">869</span>
+    </div>
+    <div class="conf-bar-row">
+      <span class="conf-label">medium</span>
+      <div class="conf-bar-track"><div class="conf-bar-fill c-medium" style="width:36%"></div></div>
+      <span class="conf-num">560</span>
+    </div>
+    <div class="conf-bar-row">
+      <span class="conf-label">medium-high</span>
+      <div class="conf-bar-track"><div class="conf-bar-fill c-medium-high" style="width:7.5%"></div></div>
+      <span class="conf-num">117</span>
+    </div>
+    <div class="conf-bar-row">
+      <span class="conf-label">low</span>
+      <div class="conf-bar-track"><div class="conf-bar-fill c-low" style="width:1.1%"></div></div>
+      <span class="conf-num">17</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: ANTI-HALLUCINATION -->
+<section id="anti-hallucination">
+  <div class="section-intro">
+    <h2>Anti-Hallucination</h2>
+    <p>The core innovation. Every claim in a compiled article must be traceable to a specific line in a specific source file. If a fact isn't in the log, it doesn't make it into the body. No exceptions. This is enforced at compile time by the worker agent itself.</p>
+  </div>
+
+  <!-- Case Study 1: electronic.md -->
+  <div class="case-study">
+    <div class="cs-title">entities/electronic.md</div>
+    <dl class="cs-detail">
+      <dt>Sources</dt>
+      <dd>wikipedia-electronic.md, wikipedia-kraftwerk.md</dd>
+      <dt>Result</dt>
+      <dd><span class="highlight-removed">13 ungrounded claims REMOVED.</span> Brian Eno, Tangerine Dream, Wendy Carlos, Pink Floyd: not present in source files</dd>
+      <dt>Survived</dt>
+      <dd>Only facts directly traceable to the two source files</dd>
+      <dt>Confidence</dt>
+      <dd><span class="highlight-warn">low.</span> Sources provide strong Kraftwerk coverage but limited standalone electronic music history</dd>
+    </dl>
+  </div>
+
+  <h3>Fact-Log Protocol</h3>
+  <p>Each compilation produces a structured fact log. The compiled body can only contain claims from this log.</p>
+
+  <div class="code-block">
+    <div class="code-header">
+      <span class="code-label">Fact Log</span>
+      <span class="code-tag">electronic.md</span>
+    </div>
+    <div class="fact-line"><span class="fact-source">1. [source: wikipedia-electronic.md]</span> Electronic music employs electronic musical instruments, digital instruments, or circuitry-based music technology…</div>
+    <div class="fact-line"><span class="fact-source">2. [source: wikipedia-kraftwerk.md]</span> Kraftwerk formed in Düsseldorf in 1970 by Ralf Hütter and Florian Schneider…</div>
+    <div class="fact-line"><span class="fact-source">3. [source: wikipedia-kraftwerk.md]</span> Their synthesizer-based approach influenced the development of electronic music genres…</div>
+    <div style="margin-top:1rem; padding-top:0.8rem; border-top: 1px solid var(--border-subtle);">
+      <div class="fact-rule">RULE: If a fact is not in the log, it does not go in the body. No exceptions.</div>
+    </div>
+  </div>
+
+  <!-- Case Study 2: Dwarf Nebula -->
+  <div class="case-study">
+    <div class="cs-title">entities/dwarf-nebula-processional-march-and-dwarf-nebula.md</div>
+    <dl class="cs-detail">
+      <dt>Sources</dt>
+      <dd>weasels-ripped-my-flesh-wikipedia.md, weasels-udiscovermusic.md, frank-zappa-scaruffi.md</dd>
+      <dt>Result</dt>
+      <dd>Compiled, but <strong>none of the 3 source files mention "Dwarf Nebula" by name</strong></dd>
+      <dt>Confidence</dt>
+      <dd><span class="highlight-warn">low</span></dd>
+    </dl>
+    <div class="cs-result">
+      The system correctly preserved the compilation flag while marking the article for review. Rather than inventing facts to fill the gap, it compiled what the sources <em>did</em> say about the parent album and flagged the entity-level content as ungrounded.
+    </div>
+  </div>
+
+  <!-- Case Study 3: Dweezil Zappa -->
+  <div class="case-study">
+    <div class="cs-title">entities/dweezil-zappa (log.md)</div>
+    <dl class="cs-detail">
+      <dt>Sources</dt>
+      <dd>3 source files. Only 1 mentions Dweezil by name</dd>
+      <dt>Result</dt>
+      <dd>Commonly known facts <span class="highlight-removed">ABSENT from sources → excluded</span></dd>
+    </dl>
+    <div class="cs-result">
+      Birth year (1969), Steve Vai guitar training, solo discography. All facts that any music encyclopedia would include. But the sources didn't contain them, so the compiler <span class="highlight-kept">refused to add them</span>. The anti-hallucination protocol prevented filling in "obvious" facts that couldn't be traced to the specific source files used for this compilation.
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: SCOPE CREEP -->
+<section id="scope-creep">
+  <div class="section-intro">
+    <h2>Scope Creep</h2>
+    <p>The most interesting failure mode. The system compiles accurately, but it doesn't know when to stop. Wikis grow organically, absorbing content that drifts progressively further from the original domain. Here's what actually happened.</p>
+  </div>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <h3>Jobseek Wiki, by the Numbers</h3>
+      <p style="font-size:0.85rem; margin-bottom:0.5rem;">Started as a focused Dutch job market knowledge base.</p>
+      <ul>
+        <li><strong style="color:var(--accent)">294</strong> concept pages</li>
+        <li><strong style="color:var(--accent)">231</strong> root-level pages</li>
+        <li><strong style="color:var(--accent)">7</strong> entity pages</li>
+        <li><strong style="color:var(--accent)">9</strong> company profiles</li>
+      </ul>
+    </div>
+    <div class="problem-card">
+      <h3>Content That Drifted In</h3>
+      <ul>
+        <li>The Hague. City demographics, government, international orgs</li>
+        <li>Catharina-Amalia, Princess of Orange. Full biography</li>
+        <li>Council of State Netherlands. Constitutional structure</li>
+        <li>Benelux political structure</li>
+        <li>ASML, Philips, KPN, ING, ABN AMRO, PostNL, DSV, CEVA Logistics: full profiles</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Example: The Hague Page</h3>
+  <div class="scope-example">
+<span class="label">title:</span> <span class="string">The Hague</span>
+<span class="label">type:</span> entity
+<span class="label">tags:</span> [<span class="string">market-nl</span>, <span class="string">sector-government</span>, <span class="string">sector-it</span>]
+<span class="label">confidence:</span> <span class="keyword">high</span>
+<span class="label">raw_compiled:</span> <span class="keyword">true</span>
+
+<span class="comment">"The Hague is the seat of government of the Netherlands…
+King Willem-Alexander resides at Huis ten Bosch…"</span>
+  </div>
+  <p class="scope-caption">
+    This page is technically tagged as a job market location. But the compilation pulled in government structure,
+    royal residence info, and international organization details. The wiki's knowledge boundary expanded beyond
+    its original scope: accurately, but uncontrollably.
+  </p>
+
+  <div class="alert-box">
+    <p>
+      <strong>The core problem:</strong> Wikis grow organically. The system has no mechanism to detect when content crosses domain boundaries, and no way to dynamically spawn new wikis for discovered domains. The compilation is <em>accurate</em> (every fact is source-grounded), but the <em>scope</em> is unbounded.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 5: ROADMAP -->
+<section id="roadmap">
+  <div class="section-intro">
+    <h2>What's Next</h2>
+    <p>The next evolution: a scope-boundary detection system that treats domain drift as a signal, not a bug.</p>
+  </div>
+
+  <ol class="step-list">
+    <li>Monitor incoming content for domain drift using semantic similarity against existing wiki scope</li>
+    <li>Classify each piece of content as in-scope, borderline, or out-of-scope</li>
+    <li>Cluster out-of-scope content to identify emergent domains</li>
+    <li>Propose new wiki instances with auto-generated SCHEMA.md from detected content patterns</li>
+    <li>Migrate misclassified pages to appropriate wikis with full provenance preserved</li>
+  </ol>
+
+  <div class="vision-block">
+    <div class="vision-row">
+      <span class="v-label">Current</span>
+      <span class="v-current">3 static wikis, manual scope management</span>
+    </div>
+    <div class="vision-row">
+      <span class="v-label">Target</span>
+      <span class="v-target">N dynamic wikis, automatic scope detection</span>
+    </div>
+    <div class="vision-flow">
+      <span class="vf-step">Content</span> → <span class="vf-step">Classifier</span> → <span class="vf-step">Route to correct wiki</span><br>
+      <span class="vf-step">Drift detected</span> → <span class="vf-step">Propose new wiki</span> → <span class="vf-step">Human approves</span> → <span class="vf-step">Auto-provision</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: TECH STACK -->
+<section id="stack">
+  <div class="section-intro">
+    <h2>Stack</h2>
+    <p>Pure file-based knowledge management. No database, no API layer, no frontend framework. The entire system runs on markdown files, YAML frontmatter, and agent orchestration.</p>
+  </div>
+
+  <div class="tech-grid">
+    <div class="tech-item">
+      <div class="tech-label">Orchestration</div>
+      <p>Hermes Agent. Multi-profile orchestration framework. Each wiki gets isolated cron, skills, and sessions. Profiles don't share state.</p>
+    </div>
+    <div class="tech-item">
+      <div class="tech-label">Profile Architecture</div>
+      <p>Each wiki maps to a Hermes profile with its own skills/, cron/, and memories/. Complete isolation between wiki instances.</p>
+    </div>
+    <div class="tech-item">
+      <div class="tech-label">Skill System</div>
+      <p>wiki-compile (orchestrator skill) delegates to wiki-compile-entity (worker skill) via task delegation. Each worker handles one article.</p>
+    </div>
+    <div class="tech-item">
+      <div class="tech-label">Scheduling</div>
+      <p>1-minute cron intervals with script pre-run for file discovery and LLM delegation for compilation. Fires continuously across all wikis.</p>
+    </div>
+    <div class="tech-item">
+      <div class="tech-label">Storage</div>
+      <p>Markdown files with YAML frontmatter. JSON for state tracking. Flat directory structure per wiki. Human-readable at every layer.</p>
+    </div>
+    <div class="tech-item">
+      <div class="tech-label">Dependencies</div>
+      <p>No database. No API. No frontend. No build step. Pure file-based knowledge management with agent-driven compilation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Kyryll Nehaturov</p>
+  <p class="footer-stat">A working system, not a concept. <span>3,736 pages</span> across <span>3 wikis</span>. <span>1,466 cron runs</span> and counting.</p>
+</footer>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  updateThemeIcons(next);
+}
+
+function updateThemeIcons(theme) {
+  const sun = document.querySelector('.sun-icon');
+  const moon = document.querySelector('.moon-icon');
+  if (theme === 'light') {
+    sun.style.display = 'none';
+    moon.style.display = 'block';
+  } else {
+    sun.style.display = 'block';
+    moon.style.display = 'none';
+  }
+}
+
+// Initialize theme from localStorage
+(function() {
+  const stored = localStorage.getItem('theme');
+  if (stored) {
+    document.documentElement.setAttribute('data-theme', stored);
+    updateThemeIcons(stored);
+  }
+})();
+</script>
+
+</body>
+</html>

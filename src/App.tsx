@@ -88,7 +88,12 @@ function App() {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [menuOpen])
 
-  const projects = [
+  const projects: {
+    title: string
+    stack: string[]
+    description: string
+    demoUrl?: string
+  }[] = [
     {
       title: 'Visitech IIoT Dashboard',
       stack: ['React', 'Express.js', 'InfluxDB', 'Grafana', 'Docker', 'WebSocket'],
@@ -106,6 +111,13 @@ function App() {
       stack: ['OpenClaw', 'Docker', 'Multi-agent orchestration'],
       description:
         'Maintaining 3 multi-agent orchestration pipelines across Docker environments. Diagnosed and resolved critical integration failures between autonomous AI components, reducing pipeline downtime by 40%. Built tooling for agent health monitoring and automated recovery.',
+    },
+    {
+      title: 'Agentic Wiki Infrastructure',
+      stack: ['Hermes', 'Multi-agent orchestration', 'TypeScript', 'Docker', 'Cron'],
+      description:
+        'Built a parallel process system that maintains independent wikis with thousands of compiled pages. Each process runs on its own cron cycle and catches unsupported claims at compile time using source-grounded fact logs. Runs continuously with no database, no API, and no shared state.',
+      demoUrl: './wiki-pipeline-demo/index.html',
     },
   ]
 
@@ -246,6 +258,11 @@ function App() {
                 ))}
               </div>
               <p className="project-desc">{p.description}</p>
+              {p.demoUrl && (
+                <a className="btn btn-ghost project-demo-link" href={p.demoUrl}>
+                  View Demo
+                </a>
+              )}
             </article>
           ))}
         </div>
