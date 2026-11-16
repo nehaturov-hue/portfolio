@@ -155,7 +155,7 @@ function App() {
 
   const experience = [
     { period: 'Oct 2022 – present', role: 'Driver, courier, order picker', company: 'Uber / Bolt, Thuisbezorgd, D-Logistiek' },
-    { period: 'Jan 2026 – Jul 2026', role: 'AI Engineer (part-time)', company: 'Syntalith.ai · OpenClaw agents for company CEOs' },
+    { period: 'Jan 2026 – Jul 2026', role: 'Forward Deployed Engineer (part-time)', company: 'Syntalith.ai · OpenClaw agents for client companies’ CEOs' },
     { period: 'Oct 2021 – Oct 2022', role: 'Front-End Developer', company: 'Coax Software' },
     { period: 'Nov 2019 – Sep 2021', role: 'Junior Front-End Developer', company: 'Visitech' },
   ]
