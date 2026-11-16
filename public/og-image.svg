@@ -2,6 +2,6 @@
   <rect width="1200" height="630" fill="#030706"/>
   <rect x="60" y="530" width="80" height="4" rx="2" fill="#009084"/>
   <text x="60" y="340" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="#e9f0ef" letter-spacing="-2">Kyryll Nehaturov</text>
-  <text x="60" y="420" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="400" fill="#798381">I Build Autonomous Systems</text>
-  <text x="60" y="470" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="400" fill="#4f5756">React · Node.js · Docker · AI Agents · Leiden, NL</text>
+  <text x="60" y="420" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="400" fill="#798381">I design and run AI agent systems</text>
+  <text x="60" y="470" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="400" fill="#4f5756">Hermes Agent · TypeScript · Node.js · Leiden, NL</text>
 </svg>
