@@ -123,14 +123,6 @@ function App() {
       linkLabel: 'Architecture demo (May 2026)',
     },
     {
-      title: 'Upstream fixes to Hermes Agent',
-      stack: ['Hermes Agent', 'SQLite', 'Pull requests'],
-      description:
-        'Five open pull requests to NousResearch/hermes-agent, mostly kanban reliability fixes for problems I hit while running my own boards.',
-      demoUrl: 'https://github.com/NousResearch/hermes-agent/pulls?q=is%3Apr+author%3Anehaturov-hue',
-      linkLabel: 'View pull requests',
-    },
-    {
       title: 'Visitech GIS project',
       stack: ['React', 'Express', 'InfluxDB', 'Grafana', 'Docker', 'GitLab CI'],
       description:
